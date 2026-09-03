@@ -1,8 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using Models;
 
 namespace DbModels;
 
+[Index(nameof(City))]
 sealed public class AddressDbM : Address, IEquatable<AddressDbM>
 {
     [Key]
@@ -10,10 +13,17 @@ sealed public class AddressDbM : Address, IEquatable<AddressDbM>
     public override string StreetAddress { get; set; }
     public override string ZipCode { get; set; }
     public override string City { get; set; }
+
+    [Required]
     public override string Country { get; set; }
 
-    public override List<IAttraction> Attractions { get; set; }
-    public override List<IUser> Users { get; set; }
+    [NotMapped]
+    public override List<IAttraction> Attractions { get => AttractionsDbM?.ToList<IAttraction>(); set => throw new NotImplementedException(); }
+    public List<AttractionDbM> AttractionsDbM { get; set; }
+
+    [NotMapped]
+    public override List<IUser> Users { get => UsersDbM?.ToList<IUser>(); set => throw new NotImplementedException(); }
+    public List<UserDbM> UsersDbM { get; set; }
 
     public AddressDbM() { }
 
