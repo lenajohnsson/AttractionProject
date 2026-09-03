@@ -6,7 +6,7 @@ public class Review : IReview
     public virtual string Comment { get; set; }
     public virtual int ReviewGrade { get; set; }
     public virtual DateTime Date { get; set; }
-    public IAttraction Attraction { get; set; }
+    public virtual IAttraction Attraction { get; set; }
 
     public Review() { }
 

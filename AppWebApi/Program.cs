@@ -38,6 +38,18 @@ builder.Services.AddScoped<IAdminService, AdminServiceDb>();
 builder.Services.AddScoped<AttractionsDbRepo>();
 builder.Services.AddScoped<IAttractionsService, AttractionsService>();
 
+builder.Services.AddScoped<AddressesDbRepo>();
+builder.Services.AddScoped<IAddressesService, AddressesService>();
+
+builder.Services.AddScoped<CategoriesDbRepo>();
+builder.Services.AddScoped<ICategoriesService, CategoriesService>();
+
+builder.Services.AddScoped<ReviewsDbRepo>();
+builder.Services.AddScoped<IReviewsService, ReviewsService>();
+
+builder.Services.AddScoped<UsersDbRepo>();
+builder.Services.AddScoped<IUsersService, UsersService>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddSwaggerGen(c =>
 {

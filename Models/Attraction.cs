@@ -15,12 +15,12 @@ public class Attraction : IAttraction, ISeed<Attraction>
 
     public Attraction() { }
 
-    public Attraction Seed(SeedGenerator seeder) //för test, få lite data
+    public Attraction Seed(SeedGenerator seeder)
     {
         Seeded = true;
         AttractionId = Guid.NewGuid();
 
-        AttractionName = seeder.PetName;
+        AttractionName = seeder.PetName; //för test, få lite data
         return this;
     }
 
