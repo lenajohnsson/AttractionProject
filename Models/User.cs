@@ -1,6 +1,8 @@
+using Seido.Utilities.SeedGenerator;
+
 namespace Models;
 
-public class User : IUser
+public class User : IUser, ISeed<User>
 {
     public virtual Guid UserId { get; set; }
     public virtual string FirstName { get; set; }
@@ -9,6 +11,7 @@ public class User : IUser
     public virtual List<IReview> Reviews { get; set; }
     public virtual List<IAttraction> Attractions { get; set; }
     public virtual IAddress Address { get; set; }
+    public bool Seeded { get; set; } = false;
 
     public User() { }
 
@@ -23,5 +26,16 @@ public class User : IUser
         // then create a new address object by copying its values
         // and assign it to the new user object.
         // This is so that the referens aren´t copied.
+    }
+
+    public User Seed(SeedGenerator seeder)
+    {
+        Seeded = true;
+        UserId = Guid.NewGuid();
+        FirstName = seeder.FirstName;
+        LastName = seeder.LastName;
+        Email = seeder.Email(FirstName, LastName);
+
+        return this;
     }
 }
