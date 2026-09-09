@@ -18,5 +18,9 @@ sealed public class ReviewDbM : Review
     public override IAttraction Attraction { get => AttractionDbM; set => throw new NotImplementedException(); }
     public AttractionDbM AttractionDbM { get; set; }
 
+    [NotMapped]
+    public override IUser User { get => UserDbM; set => throw new NotImplementedException(); }
+    public UserDbM UserDbM { get; set; }
+
     public ReviewDbM() { }
 }

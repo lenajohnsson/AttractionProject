@@ -11,7 +11,7 @@ sealed public class AddressDbM : Address, IEquatable<AddressDbM>
     [Key]
     public override Guid AddressId { get; set; }
     public override string StreetAddress { get; set; }
-    public override string ZipCode { get; set; }
+    public override int ZipCode { get; set; }
     public override string City { get; set; }
 
     [Required]

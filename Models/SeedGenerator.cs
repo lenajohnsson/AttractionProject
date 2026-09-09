@@ -30,6 +30,12 @@ namespace Seido.Utilities.SeedGenerator
     {
         readonly SeedJsonContent _seeds = null;
 
+        #region Lenas seeding
+        // Categories
+        public string Category => _seeds.Categories.Categories[this.Next(0, _seeds.Categories.Categories.Count)];
+
+        #endregion
+
         #region Names
         public string PetName => _seeds.Names.PetNames[this.Next(0, _seeds.Names.PetNames.Count)];
         public string FirstName => _seeds.Names.FirstNames[this.Next(0, _seeds.Names.FirstNames.Count)];
@@ -335,6 +341,11 @@ namespace Seido.Utilities.SeedGenerator
         {
             return new SeedJsonContent()
             {
+                Categories = new SeedCategories
+                {
+                    jsonCategories = "Museum, Amusement Park, Zoo, Café, Restaurant, Hotel, National Park, Nature Reserve, Castle, Monument, Planetarium, Art Gallery, Temple, Church"
+                },
+
                 Quotes = new List<SeedQuote>
                 {
                     //About Love
@@ -550,7 +561,7 @@ namespace Seido.Utilities.SeedGenerator
                             jsonCountry = "Sweden",
                             jsonCities = "Stockholm, Göteborg, Malmö, Uppsala, Linköping, Örebro",
                             jsonStreets = "Svedjevägen, Ringvägen, Vasagatan, Odenplan, Birger Jarlsgatan, Äppelviksvägen, Kvarnbacksvägen"
-                        },
+                    },
                         new SeedAddress {
                             jsonCountry = "Norway",
                             jsonCities = "Oslo, Bergen, Trondheim, Stavanger, Dramen",
@@ -566,11 +577,54 @@ namespace Seido.Utilities.SeedGenerator
                             jsonCities = "Helsingfors, Espoo, Tampere, Vaanta, Oulu",
                             jsonStreets = "Arkandiankatu, Liisankatu, Ruoholahdenkatu, Pohjoistranta, Eerikinkatu, Vauhtitie, Itainen Vaideki"
                     },
+                        new SeedAddress
+                    {
+                            jsonCountry = "Italy",
+                            jsonCities =  "Rome, Milan, Naples, Turin, Florence",
+                            jsonStreets = "Via Nizza, Via Edolo, Via de' Tornabuoni, Via Toledo, San Marco"
+                    },
+                        new SeedAddress
+                    {
+                            jsonCountry = "Greece",
+                            jsonCities = "Athens, Thessaloniki, Patras, Heraklion, Larissa",
+                            jsonStreets = "Dionysiou Areopagitou, Leoforos Nikis, Agiou Andreou, 25th August Street, Venizelou"
+                    },
+                        new SeedAddress
+                    {
+                            jsonCountry = "South Africa",
+                            jsonCities = "Cape Town, Johannesburg, Midrand, Durban, Pretoria",
+                            jsonStreets = "Long Street, 7th Ave, 15th Road, Anton Lembede Street, Glenvista Street"
+                    },
+                        new SeedAddress
+                    {
+                            jsonCountry = "Japan",
+                            jsonCities = "Tokyo, Osaka, Kyoto, Sapporo, Fukuoka",
+                            jsonStreets = "Chiyoda, Sennichimae, Horikawa-higashiiru, Chuo Ward, Hakataekichuogai"
+                    },
+                        new SeedAddress
+                    {
+                            jsonCountry = "Canada",
+                            jsonCities = "Toronto, Vancouver, Montreal, Calgary, Ottawa",
+                            jsonStreets = "Queens Street West, West Hastings Street, Rue Notre-Dame Est, Macleod Trail SE, Laurier Avenue West"
+                    },
+                        new SeedAddress
+                    {
+                            jsonCountry = "New Zealand",
+                            jsonCities = "Auckland, Christchurch, Wellington, Hamilton, Tauranga",
+                            jsonStreets = "Great North Road, Worcester Street, Wakefield Street, Castle Street, Willow Street"
+                    },
+                        new SeedAddress
+                    {
+                            jsonCountry = "Brazil",
+                            jsonCities = "São Paulo, Rio de Janeiro, Brasília, Salvador, Curitiba",
+                            jsonStreets = "Avenida Paulista, Avenida Atlântica, Praca dos Três Poderes, Terreiro de Jesus, Rua XV de Novembro"
+                    }
+
                 },
                 Names = new SeedNames
                 {
-                    jsonFirstNames = "Harry, Lord, Hermione, Albus, Severus, Ron, Draco, Frodo, Gandalf, Sam, Peregrin, Saruman",
-                    jsonLastNames = "Potter, Voldemort, Granger, Dumbledore, Snape, Malfoy, Baggins, the Gray, Gamgee, Took, the White",
+                    jsonFirstNames = "Harry, Lord, Hermione, Albus, Severus, Ron, Draco, Frodo, Gandalf, Sam, Peregrin, Saruman, James, Michael, John, Robert, David, William, Richard, Joseph, Cristopher, Charles, Daniel, Matthew, Anthony, Mark, Steven, Mary, Patricia, Jennifer, Linda, Elisabeth, Barbara, Susan, Jessica, Karen, Sarah, Lisa, Nancy, Sandra, Ashley, Emily, Kimberly",
+                    jsonLastNames = "Potter, Voldemort, Granger, Dumbledore, Snape, Malfoy, Baggins, the Gray, Gamgee, Took, the White, Smith, Johnson, Williams, Brown, Jones, Garcia, Miller, Davis, Rodriguez, Martinez, Hernandez, Lopez, Wilson, Anderson, Moore, Jackson, Thompson, Torres, Hill, Wright, Adams, Nelson, Baker, Carter, Eriksson, Lundberg, Grönberg, Svensson, Persson, Pettersson",
                     jsonPetNames = "Max, Charlie, Cooper, Milo, Rocky, Wanda, Teddy, Duke, Leo, Max, Simba",
                 },
                 Domains = new SeedDomains
@@ -705,6 +759,24 @@ namespace Seido.Utilities.SeedGenerator
             List<string> _cities;
             [JsonIgnore]
             public List<string> Cities => _cities;
+        }
+        class SeedCategories
+        {
+            #region Lenas categories
+            string _jsonCategories;
+            public string jsonCategories
+            {
+                get => _jsonCategories;
+                set
+                {
+                    _jsonCategories = value;
+                    _categories = _jsonCategories.Split(", ").ToList();
+                }
+            }
+            #endregion
+            List<string> _categories;
+            [JsonIgnore]
+            public List<string> Categories => _categories;
         }
         class SeedNames
         {
@@ -847,6 +919,7 @@ namespace Seido.Utilities.SeedGenerator
             public SeedNames Names { get; set; } = new SeedNames();
             public SeedDomains Domains { get; set; } = new SeedDomains();
             public SeedMusic Music { get; set; } = new SeedMusic();
+            public SeedCategories Categories { get; set; } = new SeedCategories();
 
 
             public string WriteFile(string FileName) => WriteFile(this, FileName);

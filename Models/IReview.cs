@@ -7,4 +7,5 @@ public interface IReview
     public int ReviewGrade { get; set; }
     public DateTime Date { get; set; }
     public IAttraction Attraction { get; set; }
+    public IUser User { get; set; }
 }

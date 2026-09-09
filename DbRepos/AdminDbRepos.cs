@@ -22,12 +22,15 @@ public class AdminDbRepos
         var fn = Path.GetFullPath(_seedSource);
         var seeder = new SeedGenerator(fn);
 
-        //remove existing attractions in the database
-        _dbContext.Attractions.RemoveRange(_dbContext.Attractions);
+        // //remove existing attractions in the database
+        // _dbContext.Attractions.RemoveRange(_dbContext.Attractions);
 
         //Seeding new attractions into the database
         var attractions = seeder.ItemsToList<AttractionDbM>(nrItems);
         _dbContext.Attractions.AddRange(attractions);
+
+        var categories = seeder.ItemsToList<CategoryDbM>(nrItems);
+        _dbContext.Categories.AddRange(categories);
 
         //Save changes to the database
         await _dbContext.SaveChangesAsync();
