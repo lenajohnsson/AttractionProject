@@ -29,22 +29,34 @@ public class AdminDbRepos
         var fn = Path.GetFullPath(_seedSource);
         var seeder = new SeedGenerator(fn);
 
-        // 50 användare, 100 städer, 4 länder, 1000 sevärdheter
+        // minst 50 användare, 
+        // 11 länder, 
+        // 100 städer, 
+        // 1000 sevärdheter
         // 0 - 20 kommentarer
 
-        //Seeding new attractions into the database
-        var attractions = seeder.ItemsToList<AttractionDbM>(nrItems);
-        var addresses = seeder.ItemsToList<AddressDbM>(nrItems);
 
+        var attractions = seeder.ItemsToList<AttractionDbM>(nrItems);
+        var attractionAddresses = seeder.UniqueItemsToList<AddressDbM>(nrItems);
+        var userAddresses = seeder.UniqueItemsToList<AddressDbM>(nrItems);
+        var users = seeder.ItemsToList<UserDbM>(100);
+        // var reviews = seeder.ItemsToList<ReviewDbM>(nrItems);
+
+        foreach (var user in users)
+        {
+            user.AddressDbM = seeder.FromList(userAddresses);
+
+        }
 
         foreach (var attraction in attractions)
         {
-            attraction.AddressDbM = seeder.FromList(addresses);
+            attraction.AddressDbM = seeder.FromList(attractionAddresses);
             attraction.CategoriesDbM = seeder.ItemsToList<CategoryDbM>(seeder.Next(1, 3));
-            attraction.UsersDbM = seeder.ItemsToList<UserDbM>(seeder.Next(1, 11));
-            attraction.ReviewsDbM = seeder.ItemsToList<ReviewDbM>(seeder.Next(0, 21));
+            attraction.UsersDbM = seeder.ItemsToList<UserDbM>(seeder.Next(1, 6));
+
         }
 
+        _dbContext.Users.AddRange(users);
         _dbContext.Attractions.AddRange(attractions);
 
         //Save changes to the database

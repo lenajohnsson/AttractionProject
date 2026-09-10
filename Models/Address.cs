@@ -28,10 +28,10 @@ public class Address : IAddress, ISeed<Address>, IEquatable<Address>
     {
         Seeded = true;
         AddressId = Guid.NewGuid();
+        Country = seeder.Country;
         StreetAddress = seeder.StreetAddress(Country);
         ZipCode = seeder.ZipCode;
         City = seeder.City(Country);
-        Country = seeder.Country;
 
         return this;
     }

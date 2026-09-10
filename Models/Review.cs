@@ -28,7 +28,7 @@ public class Review : IReview, ISeed<Review>
         Seeded = true;
         ReviewId = Guid.NewGuid();
         Comment = seeding.Comment;
-        ReviewGrade = seeding.Next(0, 6);
+        ReviewGrade = seeding.Next(1, 6);
         Date = seeding.DateAndTime(1985, 2026).Date;
 
         return this;

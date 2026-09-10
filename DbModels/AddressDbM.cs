@@ -7,7 +7,7 @@ using Seido.Utilities.SeedGenerator;
 namespace DbModels;
 
 [Index(nameof(City))]
-sealed public class AddressDbM : Address, ISeed<AddressDbM>
+sealed public class AddressDbM : Address, ISeed<AddressDbM>, IEquatable<AddressDbM>
 {
     [Key]
     public override Guid AddressId { get; set; }
@@ -36,18 +36,18 @@ sealed public class AddressDbM : Address, ISeed<AddressDbM>
 
 
 
-    // public bool Equals(AddressDbM other)
-    // {
-    //     return (other != null) &&
-    //     ((this.StreetAddress, this.ZipCode, this.City, this.Country) ==
-    //     (other.StreetAddress, other.ZipCode, other.City, other.Country));
-    // }
-    // public override bool Equals(object obj)
-    // {
-    //     return Equals(obj as AddressDbM);
-    // }
-    // public override int GetHashCode()
-    // {
-    //     return (StreetAddress, ZipCode, City, Country).GetHashCode();
-    // }
+    public bool Equals(AddressDbM other)
+    {
+        return (other != null) &&
+        ((this.StreetAddress, this.ZipCode, this.City, this.Country) ==
+        (other.StreetAddress, other.ZipCode, other.City, other.Country));
+    }
+    public override bool Equals(object obj)
+    {
+        return Equals(obj as AddressDbM);
+    }
+    public override int GetHashCode()
+    {
+        return (StreetAddress, ZipCode, City, Country).GetHashCode();
+    }
 }
