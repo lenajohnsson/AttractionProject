@@ -9,7 +9,7 @@ public class ReviewsService : IReviewsService
     ILogger<ReviewsService> _logger;
 
     public ReviewsService(ReviewsDbRepo repo,
-                                ILogger<ReviewsService> logger)
+                        ILogger<ReviewsService> logger)
     {
         _repo = repo;
         _logger = logger;

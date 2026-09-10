@@ -9,7 +9,7 @@ public class CategoriesService : ICategoriesService
     ILogger<CategoriesService> _logger;
 
     public CategoriesService(CategoriesDbRepo repo,
-                                ILogger<CategoriesService> logger)
+                            ILogger<CategoriesService> logger)
     {
         _repo = repo;
         _logger = logger;

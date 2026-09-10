@@ -9,7 +9,7 @@ public class AddressesService : IAddressesService
     ILogger<AddressesService> _logger;
 
     public AddressesService(AddressesDbRepo repo,
-                                ILogger<AddressesService> logger)
+                            ILogger<AddressesService> logger)
     {
         _repo = repo;
         _logger = logger;

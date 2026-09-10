@@ -9,7 +9,7 @@ public class UsersService : IUsersService
     ILogger<UsersService> _logger;
 
     public UsersService(UsersDbRepo repo,
-                                ILogger<UsersService> logger)
+                        ILogger<UsersService> logger)
     {
         _repo = repo;
         _logger = logger;
