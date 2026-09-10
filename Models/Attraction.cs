@@ -16,12 +16,12 @@ public class Attraction : IAttraction, ISeed<Attraction>
 
     public Attraction() { }
 
-    public Attraction Seed(SeedGenerator seeder)
+    public virtual Attraction Seed(SeedGenerator seeder)
     {
         Seeded = true;
         AttractionId = Guid.NewGuid();
-
-        AttractionName = seeder.PetName; //för test, få lite data
+        AttractionName = seeder.Attraction;
+        //Description = seeder.
         return this;
     }
 

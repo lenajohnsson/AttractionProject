@@ -34,6 +34,7 @@ namespace Seido.Utilities.SeedGenerator
         // Categories
         public string Category => _seeds.Categories.Categories[this.Next(0, _seeds.Categories.Categories.Count)];
 
+        public string Attraction => _seeds.Attractions.Attractions[this.Next(0, _seeds.Attractions.Attractions.Count)];
         #endregion
 
         #region Names
@@ -344,6 +345,10 @@ namespace Seido.Utilities.SeedGenerator
                 Categories = new SeedCategories
                 {
                     jsonCategories = "Museum, Amusement Park, Zoo, Café, Restaurant, Hotel, National Park, Nature Reserve, Castle, Monument, Planetarium, Art Gallery, Temple, Church"
+                },
+                Attractions = new SeedAttractions
+                {
+                    jsonAttractions = "Yellowstone National Park, Banff National Park, Kruger National Park, Tivedens Naturreservat, Saxon Switzerland National Park, Table Mountain Nature Reserve, Niagara Falls, Seljalandsfoss, Mount Fuji, Matterhorn, Mount Kilimanjaro, The British Museum, Great Court Restaurant, Louvre Museum, Café Mollien, The Metropolitan Museum of Art, Sagrada Família, St. Peter's Basilica, Notre-Dame Cathedral, Westminster Abbey, Statue of Liberty, Arc de Triomphe, Christ the Redeemer, Disneyland Paris, Auberge de Cendrillon Restaurant, Plaza Gardens Restaurant, Tivoli Gardens, Tivoli Food Hall, Europa-Park, Disney's Animal Kingdom, Flame Tree Barbecue, Satu'li Canteen, Busch Gardens Tampa Bay, Zagora Café, Dragon Fire Grill, Machu Picchu, Angkor Wat, Great Barrier Reef, Acropolis of Athens"
                 },
 
                 Quotes = new List<SeedQuote>
@@ -778,6 +783,24 @@ namespace Seido.Utilities.SeedGenerator
             [JsonIgnore]
             public List<string> Categories => _categories;
         }
+        class SeedAttractions
+        {
+            #region Lenas attractions
+            string _jsonAttractions;
+            public string jsonAttractions
+            {
+                get => _jsonAttractions;
+                set
+                {
+                    _jsonAttractions = value;
+                    _attractions = _jsonAttractions.Split(", ").ToList();
+                }
+            }
+            #endregion
+            List<string> _attractions;
+            [JsonIgnore]
+            public List<string> Attractions => _attractions;
+        }
         class SeedNames
         {
             #region Names towards json file
@@ -920,7 +943,7 @@ namespace Seido.Utilities.SeedGenerator
             public SeedDomains Domains { get; set; } = new SeedDomains();
             public SeedMusic Music { get; set; } = new SeedMusic();
             public SeedCategories Categories { get; set; } = new SeedCategories();
-
+            public SeedAttractions Attractions { get; set; } = new SeedAttractions();
 
             public string WriteFile(string FileName) => WriteFile(this, FileName);
             public static string WriteFile(SeedJsonContent Seeds, string FileName)

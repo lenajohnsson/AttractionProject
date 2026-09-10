@@ -1,4 +1,12 @@
 {
+  "Categories":
+  {
+    "jsonCategories": "Museum, Amusement Park, Zoo, Café, Restaurant, Hotel, National Park, Nature Reserve, Castle, Monument, Planetarium, Art Gallery, Temple, Church"
+  },
+  "Attractions":
+  {
+    "jsonAttractions": "Yellowstone National Park, Banff National Park, Kruger National Park, Tivedens Naturreservat, Saxon Switzerland National Park, Table Mountain Nature Reserve, Niagara Falls, Seljalandsfoss, Mount Fuji, Matterhorn, Mount Kilimanjaro, The British Museum, Great Court Restaurant, Louvre Museum, Café Mollien, The Metropolitan Museum of Art, Sagrada Família, St. Peter's Basilica, Notre-Dame Cathedral, Westminster Abbey, Statue of Liberty, Arc de Triomphe, Christ the Redeemer, Disneyland Paris, Auberge de Cendrillon Restaurant, Plaza Gardens Restaurant, Tivoli Gardens, Tivoli Food Hall, Europa-Park, Disney's Animal Kingdom, Flame Tree Barbecue, Satu'li Canteen, Busch Gardens Tampa Bay, Zagora Café, Dragon Fire Grill, Machu Picchu, Angkor Wat, Great Barrier Reef, Acropolis of Athens"
+  },
   "Quotes": [
     {
       "jsonQuote": "Would I rather be feared or loved? Easy. Both. I want people to be afraid of how much they love me.",
@@ -197,11 +205,46 @@
       "jsonCountry": "Finland",
       "jsonStreets": "Arkandiankatu, Liisankatu, Ruoholahdenkatu, Pohjoistranta, Eerikinkatu, Vauhtitie, Itainen Vaideki",
       "jsonCities": "Helsingfors, Espoo, Tampere, Vaanta, Oulu"
+    },
+    {
+      "jsonCountry": "Italy",
+      "jsonCities":  "Rome, Milan, Naples, Turin, Florence",
+      "jsonStreets": "Via Nizza, Via Edolo, Via de' Tornabuoni, Via Toledo, San Marco"
+    },
+    {
+      "jsonCountry": "Greece",
+      "jsonCities": "Athens, Thessaloniki, Patras, Heraklion, Larissa",
+      "jsonStreets": "Dionysiou Areopagitou, Leoforos Nikis, Agiou Andreou, 25th August Street, Venizelou"
+    },
+    {
+      "jsonCountry": "South Africa",
+      "jsonCities": "Cape Town, Johannesburg, Midrand, Durban, Pretoria",
+      "jsonStreets": "Long Street, 7th Ave, 15th Road, Anton Lembede Street, Glenvista Street"
+    },
+    {
+      "jsonCountry": "Japan",
+      "jsonCities": "Tokyo, Osaka, Kyoto, Sapporo, Fukuoka",
+      "jsonStreets": "Chiyoda, Sennichimae, Horikawa-higashiiru, Chuo Ward, Hakataekichuogai"
+    },
+    {
+      "jsonCountry": "Canada",
+      "jsonCities": "Toronto, Vancouver, Montreal, Calgary, Ottawa",
+      "jsonStreets": "Queens Street West, West Hastings Street, Rue Notre-Dame Est, Macleod Trail SE, Laurier Avenue West"
+    },
+    {
+      "jsonCountry": "New Zealand",
+      "jsonCities": "Auckland, Christchurch, Wellington, Hamilton, Tauranga",
+      "jsonStreets": "Great North Road, Worcester Street, Wakefield Street, Castle Street, Willow Street"
+    },
+    {
+      "jsonCountry": "Brazil",
+      "jsonCities": "São Paulo, Rio de Janeiro, Brasília, Salvador, Curitiba",
+      "jsonStreets": "Avenida Paulista, Avenida Atlântica, Praca dos Três Poderes, Terreiro de Jesus, Rua XV de Novembro"
     }
   ],
   "Names": {
-    "jsonFirstNames": "Harry, Lord, Hermione, Albus, Severus, Ron, Draco, Frodo, Gandalf, Sam, Peregrin, Saruman",
-    "jsonLastNames": "Potter, Voldemort, Granger, Dumbledore, Snape, Malfoy, Baggins, the Gray, Gamgee, Took, the White",
+    "jsonFirstNames": "Harry, Lord, Hermione, Albus, Severus, Ron, Draco, Frodo, Gandalf, Sam, Peregrin, Saruman, James, Michael, John, Robert, David, William, Richard, Joseph, Cristopher, Charles, Daniel, Matthew, Anthony, Mark, Steven, Mary, Patricia, Jennifer, Linda, Elisabeth, Barbara, Susan, Jessica, Karen, Sarah, Lisa, Nancy, Sandra, Ashley, Emily, Kimberly",
+    "jsonLastNames": "Potter, Voldemort, Granger, Dumbledore, Snape, Malfoy, Baggins, the Gray, Gamgee, Took, the White, Smith, Johnson, Williams, Brown, Jones, Garcia, Miller, Davis, Rodriguez, Martinez, Hernandez, Lopez, Wilson, Anderson, Moore, Jackson, Thompson, Torres, Hill, Wright, Adams, Nelson, Baker, Carter, Eriksson, Lundberg, Grönberg, Svensson, Persson, Pettersson",
     "jsonPetNames": "Max, Charlie, Cooper, Milo, Rocky, Wanda, Teddy, Duke, Leo, Max, Simba"
   },
   "Domains": {

@@ -32,7 +32,7 @@ sealed public class AttractionDbM : Attraction, ISeed<AttractionDbM>
 
     public AttractionDbM() { }
 
-    public new AttractionDbM Seed(SeedGenerator seeder)
+    public override AttractionDbM Seed(SeedGenerator seeder)
     {
         base.Seed(seeder);
         return this;

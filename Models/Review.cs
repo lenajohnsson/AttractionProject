@@ -1,6 +1,8 @@
+using Seido.Utilities.SeedGenerator;
+
 namespace Models;
 
-public class Review : IReview
+public class Review : IReview, ISeed<Review>
 {
     public virtual Guid ReviewId { get; set; }
     public virtual string Comment { get; set; }
@@ -8,6 +10,7 @@ public class Review : IReview
     public virtual DateTime Date { get; set; }
     public virtual IAttraction Attraction { get; set; }
     public virtual IUser User { get; set; }
+    public bool Seeded { get; set; } = false;
 
     public Review() { }
 
@@ -17,5 +20,15 @@ public class Review : IReview
         this.Comment = org.Comment;
         this.ReviewGrade = org.ReviewGrade;
         this.Date = org.Date;
+    }
+
+    public virtual Review Seed(SeedGenerator seeding)
+    {
+        Seeded = true;
+        ReviewId = Guid.NewGuid();
+        Comment = seeding.FirstName;
+        ReviewGrade = seeding.Next(0, 6);
+
+        return this;
     }
 }

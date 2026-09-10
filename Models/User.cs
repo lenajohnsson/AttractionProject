@@ -28,7 +28,7 @@ public class User : IUser, ISeed<User>
         // This is so that the referens aren´t copied.
     }
 
-    public User Seed(SeedGenerator seeder)
+    public virtual User Seed(SeedGenerator seeder)
     {
         Seeded = true;
         UserId = Guid.NewGuid();

@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Models;
+using Seido.Utilities.SeedGenerator;
 
 namespace DbModels;
 
-sealed public class ReviewDbM : Review
+sealed public class ReviewDbM : Review, ISeed<ReviewDbM>
 {
     [Key]
     public override Guid ReviewId { get; set; }
@@ -23,4 +24,9 @@ sealed public class ReviewDbM : Review
     public UserDbM UserDbM { get; set; }
 
     public ReviewDbM() { }
+    public override ReviewDbM Seed(SeedGenerator seeding)
+    {
+        base.Seed(seeding);
+        return this;
+    }
 }

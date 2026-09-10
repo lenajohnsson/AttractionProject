@@ -13,9 +13,9 @@ sealed public class CategoryDbM : Category, ISeed<CategoryDbM>
     [Required]
     public override string CategoryType { get; set; }
 
-    // [NotMapped]
-    // public override List<IAttraction> Attractions { get => AttractionsDbM?.ToList<IAttraction>(); set => throw new NotImplementedException(); }
-    // public List<AttractionDbM> AttractionsDbM { get; set; }
+    [NotMapped]
+    public override List<IAttraction> Attractions { get => AttractionsDbM?.ToList<IAttraction>(); set => throw new NotImplementedException(); }
+    public List<AttractionDbM> AttractionsDbM { get; set; }
 
     public CategoryDbM() { }
 

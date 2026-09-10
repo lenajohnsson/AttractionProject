@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 namespace AppWebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]   
+    [Route("api/[controller]/[action]")]
     public class AdminController : Controller
     {
         readonly ILogger<AdminController> _logger;
@@ -44,7 +44,7 @@ namespace AppWebApi.Controllers
                 _logger.LogError($"{nameof(Environment)}: {ex.Message}");
                 return BadRequest(ex.Message);
             }
-         }
+        }
 
         [HttpGet()]
         [ActionName("Version")]
@@ -67,7 +67,7 @@ namespace AppWebApi.Controllers
         [ActionName("Seed")]
         [ProducesResponseType(200, Type = typeof(string))]
         [ProducesResponseType(400, Type = typeof(string))]
-       public async Task<IActionResult> Seed(int nrItems = 10)
+        public async Task<IActionResult> Seed(int nrItems = 10)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace AppWebApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(Seed)}: {ex.Message}");
-                return BadRequest(ex.Message);
+                return BadRequest($"{ex.Message} - {ex.InnerException}");
             }
         }
 

@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Models;
+using Seido.Utilities.SeedGenerator;
 
 namespace DbModels;
 
-sealed public class UserDbM : User
+sealed public class UserDbM : User, ISeed<UserDbM>
 {
     [Key]
     public override Guid UserId { get; set; }
@@ -29,4 +30,10 @@ sealed public class UserDbM : User
     public AddressDbM AddressDbM { get; set; }
 
     public UserDbM() { }
+
+    public override UserDbM Seed(SeedGenerator seeding)
+    {
+        base.Seed(seeding);
+        return this;
+    }
 }
