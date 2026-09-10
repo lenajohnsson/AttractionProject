@@ -21,7 +21,7 @@ public class Attraction : IAttraction, ISeed<Attraction>
         Seeded = true;
         AttractionId = Guid.NewGuid();
         AttractionName = seeder.Attraction;
-        //Description = seeder.
+        Description = seeder.Description;
         return this;
     }
 

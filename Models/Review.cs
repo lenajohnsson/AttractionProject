@@ -12,6 +12,7 @@ public class Review : IReview, ISeed<Review>
     public virtual IUser User { get; set; }
     public bool Seeded { get; set; } = false;
 
+
     public Review() { }
 
     public Review(Review org)
@@ -26,8 +27,9 @@ public class Review : IReview, ISeed<Review>
     {
         Seeded = true;
         ReviewId = Guid.NewGuid();
-        Comment = seeding.FirstName;
+        Comment = seeding.Comment;
         ReviewGrade = seeding.Next(0, 6);
+        Date = seeding.DateAndTime(1985, 2026).Date;
 
         return this;
     }

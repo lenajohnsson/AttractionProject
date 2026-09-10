@@ -32,9 +32,12 @@ namespace Seido.Utilities.SeedGenerator
 
         #region Lenas seeding
         // Categories
-        public string Category => _seeds.Categories.Categories[this.Next(0, _seeds.Categories.Categories.Count)];
-
+        public string Category => _seeds.Attractions.Categories[this.Next(0, _seeds.Attractions.Categories.Count)];
         public string Attraction => _seeds.Attractions.Attractions[this.Next(0, _seeds.Attractions.Attractions.Count)];
+        public string Description => _seeds.Attractions.DescriptionPrefix[this.Next(0, _seeds.Attractions.DescriptionPrefix.Count)]
+            + " " + _seeds.Attractions.DescriptionSuffix[this.Next(0, _seeds.Attractions.DescriptionSuffix.Count)];
+        public string Comment => _seeds.Attractions.CommentPrefix[this.Next(0, _seeds.Attractions.CommentPrefix.Count)]
+            + " attraction. " + _seeds.Attractions.CommentSuffix[this.Next(0, _seeds.Attractions.CommentSuffix.Count)];
         #endregion
 
         #region Names
@@ -342,13 +345,15 @@ namespace Seido.Utilities.SeedGenerator
         {
             return new SeedJsonContent()
             {
-                Categories = new SeedCategories
-                {
-                    jsonCategories = "Museum, Amusement Park, Zoo, Café, Restaurant, Hotel, National Park, Nature Reserve, Castle, Monument, Planetarium, Art Gallery, Temple, Church"
-                },
+
                 Attractions = new SeedAttractions
                 {
-                    jsonAttractions = "Yellowstone National Park, Banff National Park, Kruger National Park, Tivedens Naturreservat, Saxon Switzerland National Park, Table Mountain Nature Reserve, Niagara Falls, Seljalandsfoss, Mount Fuji, Matterhorn, Mount Kilimanjaro, The British Museum, Great Court Restaurant, Louvre Museum, Café Mollien, The Metropolitan Museum of Art, Sagrada Família, St. Peter's Basilica, Notre-Dame Cathedral, Westminster Abbey, Statue of Liberty, Arc de Triomphe, Christ the Redeemer, Disneyland Paris, Auberge de Cendrillon Restaurant, Plaza Gardens Restaurant, Tivoli Gardens, Tivoli Food Hall, Europa-Park, Disney's Animal Kingdom, Flame Tree Barbecue, Satu'li Canteen, Busch Gardens Tampa Bay, Zagora Café, Dragon Fire Grill, Machu Picchu, Angkor Wat, Great Barrier Reef, Acropolis of Athens"
+                    jsonAttractions = "Yellowstone National Park, Banff National Park, Kruger National Park, Tivedens Naturreservat, Saxon Switzerland National Park, Table Mountain Nature Reserve, Niagara Falls, Seljalandsfoss, Mount Fuji, Matterhorn, Mount Kilimanjaro, The British Museum, Great Court Restaurant, Louvre Museum, Café Mollien, The Metropolitan Museum of Art, Sagrada Família, St. Peter's Basilica, Notre-Dame Cathedral, Westminster Abbey, Statue of Liberty, Arc de Triomphe, Christ the Redeemer, Disneyland Paris, Auberge de Cendrillon Restaurant, Plaza Gardens Restaurant, Tivoli Gardens, Tivoli Food Hall, Europa-Park, Disney's Animal Kingdom, Flame Tree Barbecue, Satu'li Canteen, Busch Gardens Tampa Bay, Zagora Café, Dragon Fire Grill, Machu Picchu, Angkor Wat, Great Barrier Reef, Acropolis of Athens",
+                    jsonCategories = "Museum, Amusement Park, Zoo, Café, Restaurant, Hotel, National Park, Nature Reserve, Castle, Monument, Planetarium, Art Gallery, Temple, Church",
+                    jsonDescriptionPrefix = "A place known for, An area famous for, A destination offering, A beautifully crafted environment with, A peaceful location surrounded by, A vibrant spot filled with, A surprisingly charming place featuring, A wonderfully relaxing setting with, A truly impressive attraction offering, A highly enjoyable environment full of, A beautifully designed area showcasing, A fairly average spot with, A slightly underrated location featuring, A surprisingly lively place with, A truly magical environment filled with, A wonderfully peaceful destination offering, A historically rich area known for, A modern attraction built around, A slightly chaotic but interesting place with, An unexpectedly delightful spot featuring",
+                    jsonDescriptionSuffix = "a calm and welcoming atmosphere, beautiful scenery that attracts many visitors, unique details that make it stand out, a relaxing vibe perfect for slow exploration, a lively energy that keeps the area vibrant, natural surroundings that create a peaceful mood, architectural elements worth taking a closer look at, a mix of modern and traditional influences, small details that make every visit enjoyable, a warm atmosphere that feels inviting, a sense of adventure for curious visitors, a refreshing break from everyday life, a charming simplicity that many appreciate, a dynamic environment that changes throughout the day, a peaceful corner perfect for reflection, a visually stunning backdrop for photos, a friendly atmosphere created by the people around, a sense of history that adds depth to the experience, a playful charm that makes the place memorable, a unique mood that stays with you after the visit",
+                    jsonCommentPrefix = "A very nice, Amazing, A magical, An absolutely beautiful, A breathtaking, A peaceful, Quite boring, A bit overrated, To crowded, A very expensive, A surprisingly charming, A wonderfully relaxing, A truly impressive, A highly enjoyable, A beautifully designed, A fairly average, A slightly disappointing, A surprisingly fun, A truly magical, A wonderfully peaceful, A truly wonderful, A deeply inspiring, A surprisingly calm, An incredibly vibrant, A perfectly cozy, A slightly chaotic, A wonderfully energetic, A mildly confusing, An unexpectedly delightful, A truly disappointing",
+                    jsonCommentSuffix = "Great view, Unforgettable experience, Lovely atmosphere, Worth the visit, Perfect for families, Would definitely come back, A bit disappointing, Too crowded for my taste, Amazing staff and service, Beautiful surroundings, Very relaxing, Fun but expensive, A truly unique experience, Could have been better, Exceeded my expectations, Not worth the price, Perfect for a short visit, A surprisingly fun moment, Great for taking photos, Wouldn’t recommend during peak hours, A calm and pleasant moment, Not as good as expected, A lovely surprise, Great for a weekend trip, Could use some improvements, A peaceful escape, Fun for all ages, Not the best timing, A refreshing change of pace, Would love to explore more"
                 },
 
                 Quotes = new List<SeedQuote>
@@ -765,24 +770,7 @@ namespace Seido.Utilities.SeedGenerator
             [JsonIgnore]
             public List<string> Cities => _cities;
         }
-        class SeedCategories
-        {
-            #region Lenas categories
-            string _jsonCategories;
-            public string jsonCategories
-            {
-                get => _jsonCategories;
-                set
-                {
-                    _jsonCategories = value;
-                    _categories = _jsonCategories.Split(", ").ToList();
-                }
-            }
-            #endregion
-            List<string> _categories;
-            [JsonIgnore]
-            public List<string> Categories => _categories;
-        }
+
         class SeedAttractions
         {
             #region Lenas attractions
@@ -800,6 +788,86 @@ namespace Seido.Utilities.SeedGenerator
             List<string> _attractions;
             [JsonIgnore]
             public List<string> Attractions => _attractions;
+
+            #region Lenas descriptionsPrefix
+            string _jsonDescriptionPrefix;
+            public string jsonDescriptionPrefix
+            {
+                get => _jsonDescriptionPrefix;
+                set
+                {
+                    _jsonDescriptionPrefix = value;
+                    _descriptionPrefix = _jsonDescriptionPrefix.Split(", ").ToList();
+                }
+            }
+            #endregion
+            List<string> _descriptionPrefix;
+            [JsonIgnore]
+            public List<string> DescriptionPrefix => _descriptionPrefix;
+
+            #region Lenas descriptionsSuffix
+            string _jsonDescriptionSuffix;
+            public string jsonDescriptionSuffix
+            {
+                get => _jsonDescriptionSuffix;
+                set
+                {
+                    _jsonDescriptionSuffix = value;
+                    _descriptionSuffix = _jsonDescriptionSuffix.Split(", ").ToList();
+                }
+            }
+            #endregion
+            List<string> _descriptionSuffix;
+            [JsonIgnore]
+            public List<string> DescriptionSuffix => _descriptionSuffix;
+
+            #region Lenas commentPrefix
+            string _jsonCommentPrefix;
+            public string jsonCommentPrefix
+            {
+                get => _jsonCommentPrefix;
+                set
+                {
+                    _jsonCommentPrefix = value;
+                    _commentPrefix = _jsonCommentPrefix.Split(", ").ToList();
+                }
+            }
+            #endregion
+            List<string> _commentPrefix;
+            [JsonIgnore]
+            public List<string> CommentPrefix => _commentPrefix;
+
+            #region Lenas commentSuffix
+            string _jsonCommentSuffix;
+            public string jsonCommentSuffix
+            {
+                get => _jsonCommentSuffix;
+                set
+                {
+                    _jsonCommentSuffix = value;
+                    _commentSuffix = _jsonCommentSuffix.Split(", ").ToList();
+                }
+            }
+            #endregion
+            List<string> _commentSuffix;
+            [JsonIgnore]
+            public List<string> CommentSuffix => _commentSuffix;
+
+            #region Lenas categories
+            string _jsonCategories;
+            public string jsonCategories
+            {
+                get => _jsonCategories;
+                set
+                {
+                    _jsonCategories = value;
+                    _categories = _jsonCategories.Split(", ").ToList();
+                }
+            }
+            #endregion
+            List<string> _categories;
+            [JsonIgnore]
+            public List<string> Categories => _categories;
         }
         class SeedNames
         {
@@ -942,7 +1010,6 @@ namespace Seido.Utilities.SeedGenerator
             public SeedNames Names { get; set; } = new SeedNames();
             public SeedDomains Domains { get; set; } = new SeedDomains();
             public SeedMusic Music { get; set; } = new SeedMusic();
-            public SeedCategories Categories { get; set; } = new SeedCategories();
             public SeedAttractions Attractions { get; set; } = new SeedAttractions();
 
             public string WriteFile(string FileName) => WriteFile(this, FileName);
