@@ -569,65 +569,65 @@ namespace Seido.Utilities.SeedGenerator
                 {
                         new SeedAddress {
                             jsonCountry = "Sweden",
-                            jsonCities = "Stockholm, Göteborg, Malmö, Uppsala, Linköping, Örebro",
-                            jsonStreets = "Svedjevägen, Ringvägen, Vasagatan, Odenplan, Birger Jarlsgatan, Äppelviksvägen, Kvarnbacksvägen"
+                            jsonCities = "Stockholm, Göteborg, Malmö, Uppsala, Linköping, Örebro, Gävle, Torsåker, Enköping, Västerås, Ystad",
+                            jsonStreets = "Svedjevägen, Ringvägen, Vasagatan, Odenplan, Birger Jarlsgatan, Äppelviksvägen, Kvarnbacksvägen, Femte Tvärgatan, Stjärnsundsvägen, Bergsgatan, Stora Gatan, Surbrunnsvägen"
                     },
                         new SeedAddress {
                             jsonCountry = "Norway",
-                            jsonCities = "Oslo, Bergen, Trondheim, Stavanger, Dramen",
-                            jsonStreets = "Bygdoy alle, Frognerveien, Pilestredet, Vidars gate, Sågveien, Toftes gate, Gardeveiend",
+                            jsonCities = "Oslo, Bergen, Trondheim, Stavanger, Dramen, Tromsö, Kristiansand, Ålesund, Fredrikstad, Lillehammer",
+                            jsonStreets = "Bygdoy alle, Frognerveien, Pilestredet, Vidars gate, Sågveien, Toftes gate, Gardeveiend, Karl Johans Gate, Bryggen, , Kongsgårdsgata, Övre Strandgate, Apotekergate",
                     },
                         new SeedAddress {
                             jsonCountry = "Denmark",
-                            jsonCities = "Köpenhamn, Århus, Odense, Aahlborg, Esbjerg",
-                            jsonStreets = "Rolighedsvej, Fensmarkgade, Svanevej, Gröndalsvej, Githersgade, Classensgade, Moltekesvej"
+                            jsonCities = "Köpenhamn, Århus, Odense, Aahlborg, Esbjerg, Randers, Kolding, Vejle, Horsens, Roskilde",
+                            jsonStreets = "Rolighedsvej, Fensmarkgade, Svanevej, Gröndalsvej, Githersgade, Classensgade, Moltekesvej, Törvebyggen, Koldinghus, Havneöen, Fussingsvej, Domkirkepladsen"
                     },
                         new SeedAddress {
                             jsonCountry = "Finland",
-                            jsonCities = "Helsingfors, Espoo, Tampere, Vaanta, Oulu",
-                            jsonStreets = "Arkandiankatu, Liisankatu, Ruoholahdenkatu, Pohjoistranta, Eerikinkatu, Vauhtitie, Itainen Vaideki"
+                            jsonCities = "Helsinki, Espoo, Tampere, Vaanta, Oulu, Turku, Jyväskylä, Lahti, Kuopio, Pori",
+                            jsonStreets = "Arkandiankatu, Liisankatu, Ruoholahdenkatu, Pohjoistranta, Eerikinkatu, Vauhtitie, Itainen Vaideki, Valtakatu, Torikatu, Mariankatu, Kauppakatu, Aurakatu"
                     },
                         new SeedAddress
                     {
                             jsonCountry = "Italy",
-                            jsonCities =  "Rome, Milan, Naples, Turin, Florence",
-                            jsonStreets = "Via Nizza, Via Edolo, Via de' Tornabuoni, Via Toledo, San Marco"
+                            jsonCities =  "Rome, Milan, Naples, Turin, Florence, Venice, Bologna, Verona, Palermo, Genoa",
+                            jsonStreets = "Via Nizza, Via Edolo, Via de' Tornabuoni, Via Toledo, San Marco, Via del Corso, Via Dante, Via Cavour, Via Roma, Via Indipendenza"
                     },
                         new SeedAddress
                     {
                             jsonCountry = "Greece",
-                            jsonCities = "Athens, Thessaloniki, Patras, Heraklion, Larissa",
-                            jsonStreets = "Dionysiou Areopagitou, Leoforos Nikis, Agiou Andreou, 25th August Street, Venizelou"
+                            jsonCities = "Athens, Thessaloniki, Patras, Heraklion, Larissa, Volos, Ioannina, Kalamata, Chania, Rhodes",
+                            jsonStreets = "Dionysiou Areopagitou, Leoforos Nikis, Agiou Andreou, 25th August Street, Venizelou, Iasonos Street, Averof Street, Aristomenous Street, Halidon Street, Socrates Street"
                     },
                         new SeedAddress
                     {
                             jsonCountry = "South Africa",
-                            jsonCities = "Cape Town, Johannesburg, Midrand, Durban, Pretoria",
-                            jsonStreets = "Long Street, 7th Ave, 15th Road, Anton Lembede Street, Glenvista Street"
+                            jsonCities = "Cape Town, Johannesburg, Midrand, Durban, Pretoria, Gqeberha, Bloemfontein, Polokwane, Pietermaritzburg",
+                            jsonStreets = "Long Street, 7th Ave, 15th Road, Anton Lembede Street, Glenvista Street, Loveday Street, Hertzog Boulevard, Madiba Street, Nelson Mandela Drive, Govan Mbeki Avenue"
                     },
                         new SeedAddress
                     {
                             jsonCountry = "Japan",
-                            jsonCities = "Tokyo, Osaka, Kyoto, Sapporo, Fukuoka",
-                            jsonStreets = "Chiyoda, Sennichimae, Horikawa-higashiiru, Chuo Ward, Hakataekichuogai"
+                            jsonCities = "Tokyo, Osaka, Kyoto, Sapporo, Fukuoka, Nagoya, Yokohama, Kobe, Hiroshima, Sendai",
+                            jsonStreets = "Chiyoda, Sennichimae, Horikawa-higashiiru, Chuo Ward, Hakataekichuogai, Shibuya, Minamisenba, Teramachi-dori Oike-agaru, Sakae, Otemachi"
                     },
                         new SeedAddress
                     {
                             jsonCountry = "Canada",
-                            jsonCities = "Toronto, Vancouver, Montreal, Calgary, Ottawa",
-                            jsonStreets = "Queens Street West, West Hastings Street, Rue Notre-Dame Est, Macleod Trail SE, Laurier Avenue West"
+                            jsonCities = "Toronto, Vancouver, Montreal, Calgary, Ottawa, Edmonton, Winniepeg, Halifax, Regina, St. John's",
+                            jsonStreets = "Queens Street West, West Hastings Street, Rue Notre-Dame Est, Macleod Trail SE, Laurier Avenue West, New Gower Street, Victoria Avenue, Argayle Street, Main Street, Sir Winston Churchill Square"
                     },
                         new SeedAddress
                     {
                             jsonCountry = "New Zealand",
-                            jsonCities = "Auckland, Christchurch, Wellington, Hamilton, Tauranga",
-                            jsonStreets = "Great North Road, Worcester Street, Wakefield Street, Castle Street, Willow Street"
+                            jsonCities = "Auckland, Christchurch, Wellington, Hamilton, Tauranga, Dunedin, Palmerston North, Napier, Nelson, Rotorua",
+                            jsonStreets = "Great North Road, Worcester Street, Wakefield Street, Castle Street, Willow Street, Haupapa Street, Trafalgar Street, Hastings Street, The Square, The Octagon"
                     },
                         new SeedAddress
                     {
                             jsonCountry = "Brazil",
-                            jsonCities = "São Paulo, Rio de Janeiro, Brasília, Salvador, Curitiba",
-                            jsonStreets = "Avenida Paulista, Avenida Atlântica, Praca dos Três Poderes, Terreiro de Jesus, Rua XV de Novembro"
+                            jsonCities = "São Paulo, Rio de Janeiro, Brasília, Salvador, Curitiba, Belo Horizonte, Fortaleza, Manaus, Recife, Porto Alegre",
+                            jsonStreets = "Avenida Paulista, Avenida Atlântica, Praca dos Três Poderes, Terreiro de Jesus, Rua XV de Novembro, Rua dos Andradas, Avenida Boa Viagem, Avenida Eduardo Ribeiro, Avenida Alfonso Pena, Rua das Margaridas"
                     }
 
                 },
