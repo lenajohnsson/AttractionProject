@@ -69,27 +69,29 @@ public class AdminDbRepos
         // 1000 sevärdheter
         // 0 - 20 kommentarer
 
-        var attractions = seeder.ItemsToList<AttractionDbM>(nrItems);
+        var attractions = seeder.UniqueItemsToList<AttractionDbM>(nrItems);
         var attractionAddresses = seeder.UniqueItemsToList<AddressDbM>(nrItems);
         var userAddresses = seeder.UniqueItemsToList<AddressDbM>(nrItems);
-        var users = seeder.ItemsToList<UserDbM>(100);
-        // var reviews = seeder.ItemsToList<ReviewDbM>(nrItems);
+        var users = seeder.ItemsToList<UserDbM>(nrItems);
 
-        foreach (var user in users)
+        for (int i = 0; i < users.Count; i++)
         {
-            user.AddressDbM = seeder.FromList(userAddresses);
-
+            users[i].AddressDbM = userAddresses[i];
         }
+        // foreach (var user in users)
+        // {
+
+        //     user.AddressDbM = seeder.FromList(seeder.UniqueItemsPickedFromList(1, userAddresses));
+        // }
 
         foreach (var attraction in attractions)
         {
             attraction.AddressDbM = seeder.FromList(attractionAddresses);
             attraction.CategoriesDbM = seeder.ItemsToList<CategoryDbM>(seeder.Next(1, 3));
+            attraction.ReviewsDbM = seeder.ItemsToList<ReviewDbM>(seeder.Next(1, 21));
             attraction.UsersDbM = seeder.ItemsToList<UserDbM>(seeder.Next(1, 6));
-
         }
 
-        _dbContext.Users.AddRange(users);
         _dbContext.Attractions.AddRange(attractions);
 
         //Save changes to the database
@@ -100,7 +102,11 @@ public class AdminDbRepos
 
     public async Task<ResponseItemDto<GuestUserInfoAllDto>> RemoveSeedAsync(bool seeded)
     {
-
+        _dbContext.Users.RemoveRange(_dbContext.Users.Where(u => u.Seeded == seeded));
+        _dbContext.Addresses.RemoveRange(_dbContext.Addresses.Where(u => u.Seeded == seeded));
+        _dbContext.Attractions.RemoveRange(_dbContext.Attractions.Where(u => u.Seeded == seeded));
+        _dbContext.Reviews.RemoveRange(_dbContext.Reviews.Where(u => u.Seeded == seeded));
+        _dbContext.Categories.RemoveRange(_dbContext.Categories.Where(u => u.Seeded == seeded));
 
         await _dbContext.SaveChangesAsync();
 

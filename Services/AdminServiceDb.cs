@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 
 using DbRepos;
+using Models.DTO;
 
 namespace Services;
 
@@ -18,6 +19,7 @@ public class AdminServiceDb : IAdminService
         _logger = logger;
     }
 
-    public Task SeedAsync(int nrItems) => _repo.SeedAsync(nrItems);
+    public Task<ResponseItemDto<GuestUserInfoAllDto>> SeedAsync(int nrItems) => _repo.SeedAsync(nrItems);
+    public Task<ResponseItemDto<GuestUserInfoAllDto>> RemoveSeedAsync(bool seeded) => _repo.RemoveSeedAsync(seeded);
 }
 

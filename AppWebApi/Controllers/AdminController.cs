@@ -7,6 +7,7 @@ using Services;
 using Configuration;
 using Configuration.Options;
 using Microsoft.Extensions.Options;
+using Models.DTO;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,6 +26,48 @@ namespace AppWebApi.Controllers
         readonly Encryptions _encryptions = null;
         readonly DatabaseConnections _dbConnections = null;
         readonly IAdminService _service;
+
+        //GET: api/admin/seed?count={count}
+        [HttpGet()]
+        [ActionName("Seed")]
+        [ProducesResponseType(200, Type = typeof(GuestUserInfoAllDto))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> Seed(int nrItems = 100)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(Seed)}: {nameof(nrItems)}: {nrItems}");
+                var info = await _service.SeedAsync(nrItems);
+
+                return Ok(info);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(Seed)}: {ex.Message} - {ex.InnerException}");
+                return BadRequest($"{ex.Message} - {ex.InnerException}");
+            }
+        }
+
+        //GET: api/admin/removeseed
+        [HttpGet]
+        [ActionName("RemoveSeed")]
+        [ProducesResponseType(200, Type = typeof(GuestUserInfoAllDto))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> RemoveSeed(string seeded = "true")
+        {
+            try
+            {
+                bool seededArg = bool.Parse(seeded);
+                _logger.LogInformation($"{nameof(RemoveSeed)}: {nameof(seededArg)}: {seededArg}");
+                var info = await _service.RemoveSeedAsync(seededArg);
+                return Ok(info);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(RemoveSeed)}: {ex.Message} - {ex.InnerException}");
+                return BadRequest($"{ex.Message} - {ex.InnerException}");
+            }
+        }
 
         //GET: api/admin/environment
         [HttpGet()]
@@ -46,6 +89,7 @@ namespace AppWebApi.Controllers
             }
         }
 
+        //GET: api/admin/version
         [HttpGet()]
         [ActionName("Version")]
         [ProducesResponseType(typeof(VersionOptions), 200)]
@@ -60,26 +104,6 @@ namespace AppWebApi.Controllers
             {
                 _logger.LogError(ex, "Error retrieving version information");
                 return BadRequest(ex.Message);
-            }
-        }
-        //GET: api/admin/seed?count={count}
-        [HttpGet()]
-        [ActionName("Seed")]
-        [ProducesResponseType(200, Type = typeof(string))]
-        [ProducesResponseType(400, Type = typeof(string))]
-        public async Task<IActionResult> Seed(int nrItems = 10)
-        {
-            try
-            {
-                _logger.LogInformation($"{nameof(Seed)}");
-                await _service.SeedAsync(nrItems);
-
-                return Ok($"Seeded {nrItems} items successfully");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{nameof(Seed)}: {ex.Message}");
-                return BadRequest($"{ex.Message} - {ex.InnerException}");
             }
         }
 
