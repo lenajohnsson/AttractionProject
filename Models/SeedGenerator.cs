@@ -33,7 +33,9 @@ namespace Seido.Utilities.SeedGenerator
         #region Lenas seeding
         // Categories
         public string Category => _seeds.Attractions.Categories[this.Next(0, _seeds.Attractions.Categories.Count)];
-        public string Attraction => _seeds.Attractions.Attractions[this.Next(0, _seeds.Attractions.Attractions.Count)];
+        public string Attraction => _seeds.Attractions.AttractionsPrefix[this.Next(0, _seeds.Attractions.AttractionsPrefix.Count)]
+            + " " + _seeds.Attractions.AttractionsMiddle[this.Next(0, _seeds.Attractions.AttractionsMiddle.Count)]
+            + " " + _seeds.Attractions.AttractionsSuffix[this.Next(0, _seeds.Attractions.AttractionsSuffix.Count)];
         public string Description => _seeds.Attractions.DescriptionPrefix[this.Next(0, _seeds.Attractions.DescriptionPrefix.Count)]
             + " " + _seeds.Attractions.DescriptionSuffix[this.Next(0, _seeds.Attractions.DescriptionSuffix.Count)];
         public string Comment => _seeds.Attractions.CommentPrefix[this.Next(0, _seeds.Attractions.CommentPrefix.Count)]
@@ -348,7 +350,9 @@ namespace Seido.Utilities.SeedGenerator
 
                 Attractions = new SeedAttractions
                 {
-                    jsonAttractions = "Yellowstone National Park, Banff National Park, Kruger National Park, Tivedens Naturreservat, Saxon Switzerland National Park, Table Mountain Nature Reserve, Niagara Falls, Seljalandsfoss, Mount Fuji, Matterhorn, Mount Kilimanjaro, The British Museum, Great Court Restaurant, Louvre Museum, Café Mollien, The Metropolitan Museum of Art, Sagrada Família, St. Peter's Basilica, Notre-Dame Cathedral, Westminster Abbey, Statue of Liberty, Arc de Triomphe, Christ the Redeemer, Disneyland Paris, Auberge de Cendrillon Restaurant, Plaza Gardens Restaurant, Tivoli Gardens, Tivoli Food Hall, Europa-Park, Disney's Animal Kingdom, Flame Tree Barbecue, Satu'li Canteen, Busch Gardens Tampa Bay, Zagora Café, Dragon Fire Grill, Machu Picchu, Angkor Wat, Great Barrier Reef, Acropolis of Athens",
+                    jsonAttractionsPrefix = "The Great, The Ancient, The Hidden, The Grand, The Royal, The Sacred, The Whispering, The Emerald, The Northern, The Golden, The Lost, The Fallen, Plaza del, Mount, Dragon, Tivoli",
+                    jsonAttractionsMiddle = "Forest, Valley, Mountain, River, Canyon, Harbor, National, Heritage, Temple, Garden, Hotel, Flame, Court, Barrier",
+                    jsonAttractionsSuffix = "Park, Sanctuary, Reserve, Trail, Point, Monument, Outlook, Domain, Terrace, Haven, Reef, Church, Statue, Cathedral",
                     jsonCategories = "Museum, Amusement Park, Zoo, Café, Restaurant, Hotel, National Park, Nature Reserve, Castle, Monument, Planetarium, Art Gallery, Temple, Church",
                     jsonDescriptionPrefix = "A place known for, An area famous for, A destination offering, A beautifully crafted environment with, A peaceful location surrounded by, A vibrant spot filled with, A surprisingly charming place featuring, A wonderfully relaxing setting with, A truly impressive attraction offering, A highly enjoyable environment full of, A beautifully designed area showcasing, A fairly average spot with, A slightly underrated location featuring, A surprisingly lively place with, A truly magical environment filled with, A wonderfully peaceful destination offering, A historically rich area known for, A modern attraction built around, A slightly chaotic but interesting place with, An unexpectedly delightful spot featuring",
                     jsonDescriptionSuffix = "a calm and welcoming atmosphere, beautiful scenery that attracts many visitors, unique details that make it stand out, a relaxing vibe perfect for slow exploration, a lively energy that keeps the area vibrant, natural surroundings that create a peaceful mood, architectural elements worth taking a closer look at, a mix of modern and traditional influences, small details that make every visit enjoyable, a warm atmosphere that feels inviting, a sense of adventure for curious visitors, a refreshing break from everyday life, a charming simplicity that many appreciate, a dynamic environment that changes throughout the day, a peaceful corner perfect for reflection, a visually stunning backdrop for photos, a friendly atmosphere created by the people around, a sense of history that adds depth to the experience, a playful charm that makes the place memorable, a unique mood that stays with you after the visit",
@@ -773,21 +777,53 @@ namespace Seido.Utilities.SeedGenerator
 
         class SeedAttractions
         {
-            #region Lenas attractions
-            string _jsonAttractions;
-            public string jsonAttractions
+            #region Lenas attractionsPrefix
+            string _jsonAttractionsPrefix;
+            public string jsonAttractionsPrefix
             {
-                get => _jsonAttractions;
+                get => _jsonAttractionsPrefix;
                 set
                 {
-                    _jsonAttractions = value;
-                    _attractions = _jsonAttractions.Split(", ").ToList();
+                    _jsonAttractionsPrefix = value;
+                    _attractionsPrefix = _jsonAttractionsPrefix.Split(", ").ToList();
                 }
             }
             #endregion
-            List<string> _attractions;
+            List<string> _attractionsPrefix;
             [JsonIgnore]
-            public List<string> Attractions => _attractions;
+            public List<string> AttractionsPrefix => _attractionsPrefix;
+
+            #region Lenas attractionsMiddle
+            string _jsonAttractionsMiddle;
+            public string jsonAttractionsMiddle
+            {
+                get => _jsonAttractionsMiddle;
+                set
+                {
+                    _jsonAttractionsMiddle = value;
+                    _attractionsMiddle = _jsonAttractionsMiddle.Split(", ").ToList();
+                }
+            }
+            #endregion
+            List<string> _attractionsMiddle;
+            [JsonIgnore]
+            public List<string> AttractionsMiddle => _attractionsMiddle;
+
+            #region Lenas attractionsSuffix
+            string _jsonAttractionsSuffix;
+            public string jsonAttractionsSuffix
+            {
+                get => _jsonAttractionsSuffix;
+                set
+                {
+                    _jsonAttractionsSuffix = value;
+                    _attractionsSuffix = _jsonAttractionsSuffix.Split(", ").ToList();
+                }
+            }
+            #endregion
+            List<string> _attractionsSuffix;
+            [JsonIgnore]
+            public List<string> AttractionsSuffix => _attractionsSuffix;
 
             #region Lenas descriptionsPrefix
             string _jsonDescriptionPrefix;

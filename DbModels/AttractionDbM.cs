@@ -5,7 +5,7 @@ using Seido.Utilities.SeedGenerator;
 
 namespace DbModels;
 
-sealed public class AttractionDbM : Attraction, ISeed<AttractionDbM>
+sealed public class AttractionDbM : Attraction, ISeed<AttractionDbM>, IEquatable<AttractionDbM>
 {
     [Key]
     public override Guid AttractionId { get; set; }
@@ -38,4 +38,17 @@ sealed public class AttractionDbM : Attraction, ISeed<AttractionDbM>
         return this;
     }
 
+    public bool Equals(AttractionDbM other)
+    {
+        return (other != null) &&
+        (this.AttractionName == other.AttractionName);
+    }
+    public override bool Equals(object obj)
+    {
+        return Equals(obj as AttractionDbM);
+    }
+    public override int GetHashCode()
+    {
+        return AttractionName.GetHashCode();
+    }
 }
