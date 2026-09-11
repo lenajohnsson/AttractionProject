@@ -74,15 +74,11 @@ public class AdminDbRepos
         var userAddresses = seeder.UniqueItemsToList<AddressDbM>(nrItems);
         var users = seeder.ItemsToList<UserDbM>(nrItems);
 
-        for (int i = 0; i < users.Count; i++)
+        foreach (var user in users)
         {
-            users[i].AddressDbM = userAddresses[i];
-        }
-        // foreach (var user in users)
-        // {
 
-        //     user.AddressDbM = seeder.FromList(seeder.UniqueItemsPickedFromList(1, userAddresses));
-        // }
+            user.AddressDbM = seeder.FromList(seeder.UniqueItemsPickedFromList(1, userAddresses));
+        }
 
         foreach (var attraction in attractions)
         {

@@ -1,5 +1,7 @@
 using DbRepos;
 using Microsoft.Extensions.Logging;
+using Models;
+using Models.DTO;
 
 namespace Services;
 
@@ -14,4 +16,6 @@ public class AddressesService : IAddressesService
         _repo = repo;
         _logger = logger;
     }
+
+    public Task<ResponsePageDto<IAddress>> ReadAddressesAsync() => _repo.ReadAddressesAsync();
 }
