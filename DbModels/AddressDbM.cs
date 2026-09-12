@@ -2,11 +2,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using Newtonsoft.Json;
 using Seido.Utilities.SeedGenerator;
 
 namespace DbModels;
 
 [Index(nameof(City))]
+[Index(nameof(StreetAddress), nameof(ZipCode), nameof(City), nameof(Country), IsUnique = true)]
 sealed public class AddressDbM : Address, ISeed<AddressDbM>, IEquatable<AddressDbM>
 {
     [Key]
@@ -14,28 +16,29 @@ sealed public class AddressDbM : Address, ISeed<AddressDbM>, IEquatable<AddressD
     public override string StreetAddress { get; set; }
     public override int ZipCode { get; set; }
     public override string City { get; set; }
-
     [Required]
     public override string Country { get; set; }
 
+    // Mapping relations
     [NotMapped]
     public override List<IAttraction> Attractions { get => AttractionsDbM?.ToList<IAttraction>(); set => throw new NotImplementedException(); }
+    [JsonIgnore]
     public List<AttractionDbM> AttractionsDbM { get; set; }
 
     [NotMapped]
     public override List<IUser> Users { get => UsersDbM?.ToList<IUser>(); set => throw new NotImplementedException(); }
+    [JsonIgnore]
     public List<UserDbM> UsersDbM { get; set; }
 
+    //Constructors
     public AddressDbM() { }
-
     public override AddressDbM Seed(SeedGenerator seeding)
     {
         base.Seed(seeding);
         return this;
     }
 
-
-
+    // IEquatable
     public bool Equals(AddressDbM other)
     {
         return (other != null) &&
