@@ -12,11 +12,10 @@ public class Review : IReview, ISeed<Review>
     public virtual IUser User { get; set; }
     public bool Seeded { get; set; } = false;
 
-
     public Review() { }
-
     public Review(Review org)
     {
+        this.Seeded = org.Seeded;
         this.ReviewId = org.ReviewId;
         this.Comment = org.Comment;
         this.ReviewGrade = org.ReviewGrade;

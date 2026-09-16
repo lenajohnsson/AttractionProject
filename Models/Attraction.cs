@@ -10,10 +10,15 @@ public class Attraction : IAttraction, ISeed<Attraction>, IEquatable<Attraction>
     public virtual List<IReview> Reviews { get; set; }
     public virtual List<ICategory> Categories { get; set; }
     public virtual IAddress Address { get; set; }
-
     public bool Seeded { get; set; } = false;
 
     public Attraction() { }
+    public Attraction(Attraction org)
+    {
+        this.Seeded = org.Seeded;
+        this.AttractionId = org.AttractionId;
+        this.AttractionName = org.AttractionName;
+    }
 
     public virtual Attraction Seed(SeedGenerator seeder)
     {
@@ -22,12 +27,6 @@ public class Attraction : IAttraction, ISeed<Attraction>, IEquatable<Attraction>
         AttractionName = seeder.Attraction;
         Description = seeder.Description;
         return this;
-    }
-
-    public Attraction(Attraction org)
-    {
-        this.AttractionId = org.AttractionId;
-        this.AttractionName = org.AttractionName;
     }
 
     public bool Equals(Attraction other)

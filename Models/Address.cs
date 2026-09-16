@@ -13,9 +13,9 @@ public class Address : IAddress, ISeed<Address>, IEquatable<Address>
     public bool Seeded { get; set; } = false;
 
     public Address() { }
-
     public Address(Address org)
     {
+        this.Seeded = org.Seeded;
         this.AddressId = org.AddressId;
         this.StreetAddress = org.StreetAddress;
         this.ZipCode = org.ZipCode;
@@ -34,7 +34,6 @@ public class Address : IAddress, ISeed<Address>, IEquatable<Address>
 
         return this;
     }
-
 
     public bool Equals(Address other)
     {

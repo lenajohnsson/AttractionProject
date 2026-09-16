@@ -12,6 +12,7 @@ public class Category : ICategory, ISeed<Category>
     public Category() { }
     public Category(Category org)
     {
+        this.Seeded = org.Seeded;
         this.CategoryId = org.CategoryId;
         this.CategoryType = org.CategoryType;
     }

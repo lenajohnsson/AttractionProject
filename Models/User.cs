@@ -12,14 +12,13 @@ public class User : IUser, ISeed<User>
     public bool Seeded { get; set; } = false;
 
     public User() { }
-
     public User(User org)
     {
+        this.Seeded = org.Seeded;
         this.UserId = org.UserId;
         this.FirstName = org.FirstName;
         this.LastName = org.LastName;
         this.Email = org.Email;
-
     }
 
     public virtual User Seed(SeedGenerator seeder)
