@@ -15,7 +15,7 @@ namespace AppWebApi.Controllers
         //GET: api/attractions/read
         [HttpGet()]
         [ActionName("Read")]
-        [ProducesResponseType(200, Type = typeof(ResponsePageDto<IAttraction>))]
+        [ProducesResponseType(200, Type = typeof(ResponsePageDto<AttractionReadListDto>))]
         [ProducesResponseType(400, Type = typeof(string))]
         public async Task<IActionResult> Read
             (string seeded = "true", string flat = "true", string filter = null,

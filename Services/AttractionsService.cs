@@ -17,7 +17,27 @@ public class AttractionsService : IAttractionsService
         _logger = logger;
     }
 
-    public Task<ResponsePageDto<IAttraction>> ReadAttractionsAsync
-        (bool seeded, bool flat, string filter, int pageNr, int pageSz) =>
-        _repo.ReadAttractionsAsync(seeded, flat, filter, pageNr, pageSz);
+    public async Task<ResponsePageDto<AttractionReadListDto>> ReadAttractionsAsync
+        (bool seeded, bool flat, string filter, int pageNr, int pageSz)
+    {
+        var efResult = await _repo.ReadAttractionsAsync(seeded, flat, filter, pageNr, pageSz);
+
+        var dtoItems = efResult.PageItems.Select(a => new AttractionReadListDto
+        {
+            AttractionId = a.AttractionId,
+            AttractionName = a.AttractionName,
+            Description = a.Description,
+            City = a.Address?.City,
+            Country = a.Address?.Country,
+            Categories = a.Categories?.Select(c => c.CategoryType).ToList()
+        }).ToList();
+
+        return new ResponsePageDto<AttractionReadListDto>
+        {
+            DbItemsCount = efResult.DbItemsCount,
+            PageItems = dtoItems,
+            PageNr = efResult.PageNr,
+            PageSize = efResult.PageSize
+        };
+    }
 }
