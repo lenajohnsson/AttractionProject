@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbContext.Migrations.SqlServerDbContext
 {
     [DbContext(typeof(MainDbContext.SqlServerDbContext))]
-    [Migration("20260916112245_miInitial")]
+    [Migration("20260916134036_miInitial")]
     partial class miInitial
     {
         /// <inheritdoc />
@@ -64,8 +64,6 @@ namespace DbContext.Migrations.SqlServerDbContext
                         .HasColumnType("int");
 
                     b.HasKey("AddressId");
-
-                    b.HasIndex("City");
 
                     b.HasIndex("StreetAddress", "ZipCode", "City", "Country")
                         .IsUnique()
@@ -132,7 +130,7 @@ namespace DbContext.Migrations.SqlServerDbContext
                         .HasColumnType("varchar(200)");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<int>("ReviewGrade")
                         .HasColumnType("int");

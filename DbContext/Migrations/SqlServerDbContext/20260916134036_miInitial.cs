@@ -107,7 +107,7 @@ namespace DbContext.Migrations.SqlServerDbContext
                     ReviewId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Comment = table.Column<string>(type: "varchar(200)", nullable: false),
                     ReviewGrade = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Date = table.Column<DateTime>(type: "date", nullable: false),
                     AttractionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Seeded = table.Column<bool>(type: "bit", nullable: false)
@@ -128,11 +128,6 @@ namespace DbContext.Migrations.SqlServerDbContext
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Addresses_City",
-                table: "Addresses",
-                column: "City");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_StreetAddress_ZipCode_City_Country",

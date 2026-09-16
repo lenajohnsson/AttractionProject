@@ -38,8 +38,7 @@ public class AddressesDbRepo
                 .Include(i => i.AttractionsDbM)
                 .ThenInclude(i => i.CategoriesDbM)
                 .Include(i => i.AttractionsDbM)
-                .ThenInclude(i => i.ReviewsDbM)
-                .ThenInclude(i => i.UserDbM);
+                .ThenInclude(i => i.ReviewsDbM);
         }
 
         var ret = new ResponsePageDto<IAddress>()

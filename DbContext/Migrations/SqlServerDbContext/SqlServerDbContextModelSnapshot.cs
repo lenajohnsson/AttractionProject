@@ -62,8 +62,6 @@ namespace DbContext.Migrations.SqlServerDbContext
 
                     b.HasKey("AddressId");
 
-                    b.HasIndex("City");
-
                     b.HasIndex("StreetAddress", "ZipCode", "City", "Country")
                         .IsUnique()
                         .HasFilter("[StreetAddress] IS NOT NULL");
@@ -129,7 +127,7 @@ namespace DbContext.Migrations.SqlServerDbContext
                         .HasColumnType("varchar(200)");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<int>("ReviewGrade")
                         .HasColumnType("int");
