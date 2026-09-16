@@ -5,5 +5,6 @@ namespace Services;
 
 public interface ICategoriesService
 {
-    public Task<ResponsePageDto<ICategory>> ReadCategoriesAsync();
+    public Task<ResponsePageDto<ICategory>> ReadCategoriesAsync
+        (bool seeded, bool flat, string filter, int pageNr, int pageSz);
 }

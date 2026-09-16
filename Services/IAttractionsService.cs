@@ -5,5 +5,6 @@ namespace Services;
 
 public interface IAttractionsService
 {
-    public Task<ResponsePageDto<IAttraction>> ReadAttractionsAsync();
+    public Task<ResponsePageDto<IAttraction>> ReadAttractionsAsync
+        (bool seeded, bool flat, string filter, int pageNr, int pageSz);
 }

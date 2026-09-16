@@ -33,7 +33,6 @@ namespace AppWebApi.Controllers
                     $"{nameof(flatArg)} - {flatArg}, {nameof(pageNrArg)} - {pageNrArg}, " +
                     $"{nameof(pageSzArg)} - {pageSzArg} ");
 
-
                 var res = await _service.ReadAddressesAsync(seededArg, flatArg, filter?.Trim().ToLower(),
                     pageNrArg, pageSzArg);
                 return Ok(res);

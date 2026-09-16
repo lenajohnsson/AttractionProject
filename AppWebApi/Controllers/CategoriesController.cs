@@ -17,12 +17,23 @@ namespace AppWebApi.Controllers
         [ActionName("Read")]
         [ProducesResponseType(200, Type = typeof(ResponsePageDto<ICategory>))]
         [ProducesResponseType(400, Type = typeof(string))]
-        public async Task<IActionResult> Read()
+        public async Task<IActionResult> Read
+            (string seeded = "true", string flat = "true", string filter = null,
+            string pageNr = "0", string pageSz = "10")
         {
             try
             {
-                _logger.LogInformation($"{nameof(Read)}");
-                var res = await _service.ReadCategoriesAsync();
+                bool seededArg = bool.Parse(seeded);
+                bool flatArg = bool.Parse(flat);
+                int pageNrArg = int.Parse(pageNr);
+                int pageSzArg = int.Parse(pageSz);
+
+                _logger.LogInformation($"{nameof(Read)}: {nameof(seededArg)} - {seededArg}, " +
+                    $"{nameof(flatArg)} - {flatArg}, {nameof(pageNrArg)} - {pageNrArg}, " +
+                    $"{nameof(pageSzArg)} - {pageSzArg} ");
+
+                var res = await _service.ReadCategoriesAsync(seededArg, flatArg, filter?.Trim().ToLower(),
+                    pageNrArg, pageSzArg);
                 return Ok(res);
             }
             catch (Exception ex)

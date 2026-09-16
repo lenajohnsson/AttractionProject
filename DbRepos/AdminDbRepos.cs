@@ -71,7 +71,6 @@ public class AdminDbRepos
 
         var attractions = seeder.UniqueItemsToList<AttractionDbM>(nrItems);
         var attractionAddresses = seeder.UniqueItemsToList<AddressDbM>(nrItems);
-        // var userAddresses = seeder.UniqueItemsToList<AddressDbM>(nrItems);
         var users = seeder.ItemsToList<UserDbM>(50);
 
 
@@ -80,7 +79,7 @@ public class AdminDbRepos
         {
             attraction.AddressDbM = seeder.FromList(attractionAddresses);
             attraction.CategoriesDbM = seeder.ItemsToList<CategoryDbM>(seeder.Next(1, 3));
-            var reviews = seeder.ItemsToList<ReviewDbM>(seeder.Next(1, 21));
+            var reviews = seeder.ItemsToList<ReviewDbM>(seeder.Next(0, 21));
 
             foreach (var review in reviews)
             {

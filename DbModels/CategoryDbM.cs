@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using Newtonsoft.Json;
 using Seido.Utilities.SeedGenerator;
@@ -18,7 +19,6 @@ sealed public class CategoryDbM : Category, ISeed<CategoryDbM>
     [NotMapped]
     public override List<IAttraction> Attractions { get => AttractionsDbM?.ToList<IAttraction>(); set => throw new NotImplementedException(); }
     [JsonIgnore]
-    [Required] // ??
     public List<AttractionDbM> AttractionsDbM { get; set; }
 
     // Constructor
@@ -30,4 +30,5 @@ sealed public class CategoryDbM : Category, ISeed<CategoryDbM>
         base.Seed(seeding);
         return this;
     }
+
 }

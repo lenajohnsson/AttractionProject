@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbContext.Migrations.SqlServerDbContext
 {
     [DbContext(typeof(MainDbContext.SqlServerDbContext))]
-    [Migration("20260916134036_miInitial")]
+    [Migration("20260916144116_miInitial")]
     partial class miInitial
     {
         /// <inheritdoc />
@@ -112,6 +112,9 @@ namespace DbContext.Migrations.SqlServerDbContext
                         .HasColumnType("bit");
 
                     b.HasKey("CategoryId");
+
+                    b.HasIndex("CategoryType")
+                        .IsUnique();
 
                     b.ToTable("Categories");
                 });

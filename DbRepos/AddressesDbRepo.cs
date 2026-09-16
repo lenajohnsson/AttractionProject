@@ -47,7 +47,7 @@ public class AddressesDbRepo
             ConnectionString = _dbContext.dbConnection,
 #endif
 
-            // Counting objects, filtered or not
+            // Counting rows, filtered or not
             DbItemsCount = await query
             .Where(i => (i.Seeded == seeded) &&
                         (i.StreetAddress.ToLower().Contains(filter) ||

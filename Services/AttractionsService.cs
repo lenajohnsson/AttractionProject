@@ -17,5 +17,7 @@ public class AttractionsService : IAttractionsService
         _logger = logger;
     }
 
-    public Task<ResponsePageDto<IAttraction>> ReadAttractionsAsync() => _repo.ReadAttractionsAsync();
+    public Task<ResponsePageDto<IAttraction>> ReadAttractionsAsync
+        (bool seeded, bool flat, string filter, int pageNr, int pageSz) =>
+        _repo.ReadAttractionsAsync(seeded, flat, filter, pageNr, pageSz);
 }

@@ -29,7 +29,6 @@ sealed public class AttractionDbM : Attraction, ISeed<AttractionDbM>, IEquatable
     [NotMapped]
     public override List<ICategory> Categories { get => CategoriesDbM?.ToList<ICategory>(); set => throw new NotImplementedException(); }
     [JsonIgnore]
-    [Required] // ??
     public List<CategoryDbM> CategoriesDbM { get; set; }
 
     // Many attractions can have one address

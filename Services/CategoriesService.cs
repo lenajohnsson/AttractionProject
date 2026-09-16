@@ -17,5 +17,7 @@ public class CategoriesService : ICategoriesService
         _logger = logger;
     }
 
-    public Task<ResponsePageDto<ICategory>> ReadCategoriesAsync() => _repo.ReadCategoriesAsync();
+    public Task<ResponsePageDto<ICategory>> ReadCategoriesAsync
+        (bool seeded, bool flat, string filter, int pageNr, int pageSz) =>
+        _repo.ReadCategoriesAsync(seeded, flat, filter, pageNr, pageSz);
 }

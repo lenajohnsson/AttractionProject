@@ -20,24 +20,44 @@ public class AttractionsDbRepo
         _logger = logger;
     }
 
-    // Task - någon gång i framtiden får du ett värde av typen T
-    // ResponsePageDto<IAttraction> är typen som returneras
-    public async Task<ResponsePageDto<IAttraction>> ReadAttractionsAsync()
+    public async Task<ResponsePageDto<IAttraction>> ReadAttractionsAsync
+        (bool seeded, bool flat, string filter, int pageNr, int pageSz)
     {
-        // hämta alla AttractionDbM från databasen
-        IQueryable<AttractionDbM> query = _dbContext.Attractions;
-        // Skapar ett nytt objekt av typen ResponsePageDto<IAttraction>
+        if (filter == null)
+            filter = "";
+
+        IQueryable<AttractionDbM> query;
+
+        if (flat)
+        {
+            query = _dbContext.Attractions;
+        }
+        else
+        {
+            query = _dbContext.Attractions
+                .Include(i => i.AddressDbM)
+                .Include(i => i.CategoriesDbM)
+                .Include(i => i.ReviewsDbM);
+        }
+
         var ret = new ResponsePageDto<IAttraction>()
         {
 #if DEBUG
             ConnectionString = _dbContext.dbConnection,
 #endif
-            // SELECT COUNT(*) FROM Attractions
-            // antal rader i tabellen
-            DbItemsCount = await query.CountAsync(),
-            // SELECT * FROM Attractions
-            // alla attractions som en lista
-            PageItems = await query.ToListAsync<IAttraction>()
+            DbItemsCount = await query
+            .Where(i => (i.Seeded == seeded) &&
+                        i.AttractionName.ToLower().Contains(filter)).CountAsync(),
+
+            PageItems = await query
+            .Where(i => (i.Seeded == seeded) &&
+                        i.AttractionName.ToLower().Contains(filter))
+            .Skip(pageNr * pageSz)
+            .Take(pageSz)
+            .ToListAsync<IAttraction>(),
+
+            PageNr = pageNr,
+            PageSize = pageSz
         };
         return ret;
     }

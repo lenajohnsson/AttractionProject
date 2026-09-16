@@ -17,5 +17,7 @@ public class AddressesService : IAddressesService
         _logger = logger;
     }
 
-    public Task<ResponsePageDto<IAddress>> ReadAddressesAsync(bool seeded, bool flat, string filter, int pageNr, int pageSz) => _repo.ReadAddressesAsync(seeded, flat, filter, pageNr, pageSz);
+    public Task<ResponsePageDto<IAddress>> ReadAddressesAsync
+        (bool seeded, bool flat, string filter, int pageNr, int pageSz) =>
+        _repo.ReadAddressesAsync(seeded, flat, filter, pageNr, pageSz);
 }
