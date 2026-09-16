@@ -14,14 +14,17 @@ sealed public class CategoryDbM : Category, ISeed<CategoryDbM>
     public override string CategoryType { get; set; }
 
     // Mapping relations
+    // Many categories can have many attractions
     [NotMapped]
     public override List<IAttraction> Attractions { get => AttractionsDbM?.ToList<IAttraction>(); set => throw new NotImplementedException(); }
     [JsonIgnore]
     [Required] // ??
     public List<AttractionDbM> AttractionsDbM { get; set; }
 
-    // Constructors
+    // Constructor
     public CategoryDbM() { }
+
+    // Seed
     public override CategoryDbM Seed(SeedGenerator seeding)
     {
         base.Seed(seeding);

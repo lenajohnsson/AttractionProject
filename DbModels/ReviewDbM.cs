@@ -20,20 +20,24 @@ sealed public class ReviewDbM : Review, ISeed<ReviewDbM>
     public Guid UserId { get; set; }
 
     // Mapping relations
+    // Many reviews can have one attraction
     [NotMapped]
     public override IAttraction Attraction { get => AttractionDbM; set => throw new NotImplementedException(); }
     [JsonIgnore]
     [ForeignKey("AttractionId")]
     public AttractionDbM AttractionDbM { get; set; }
 
+    // Many reviews can have one user
     [NotMapped]
     public override IUser User { get => UserDbM; set => throw new NotImplementedException(); }
     [JsonIgnore]
     [ForeignKey("UserId")]
     public UserDbM UserDbM { get; set; }
 
-    // Constructors
+    // Constructor
     public ReviewDbM() { }
+
+    // Seed
     public override ReviewDbM Seed(SeedGenerator seeding)
     {
         base.Seed(seeding);

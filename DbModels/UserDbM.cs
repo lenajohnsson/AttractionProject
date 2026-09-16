@@ -17,13 +17,16 @@ sealed public class UserDbM : User, ISeed<UserDbM>
     public override string Email { get; set; }
 
     // Mapping relations
+    // One user can have many reviews
     [NotMapped]
     public override List<IReview> Reviews { get => ReviewsDbM?.ToList<IReview>(); set => throw new NotImplementedException(); }
     [JsonIgnore]
     public List<ReviewDbM> ReviewsDbM { get; set; }
 
-    // Constructors
+    // Constructor
     public UserDbM() { }
+
+    // Seed
     public override UserDbM Seed(SeedGenerator seeding)
     {
         base.Seed(seeding);

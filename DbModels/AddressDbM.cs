@@ -7,7 +7,7 @@ using Seido.Utilities.SeedGenerator;
 
 namespace DbModels;
 
-[Index(nameof(City))]
+// Unique index on the addresses
 [Index(nameof(StreetAddress), nameof(ZipCode), nameof(City), nameof(Country), IsUnique = true)]
 sealed public class AddressDbM : Address, ISeed<AddressDbM>, IEquatable<AddressDbM>
 {
@@ -21,13 +21,16 @@ sealed public class AddressDbM : Address, ISeed<AddressDbM>, IEquatable<AddressD
     public override string Country { get; set; }
 
     // Mapping relations
+    // One address can have many attractions
     [NotMapped]
     public override List<IAttraction> Attractions { get => AttractionsDbM?.ToList<IAttraction>(); set => throw new NotImplementedException(); }
     [JsonIgnore]
     public List<AttractionDbM> AttractionsDbM { get; set; }
 
-    //Constructors
+    //Constructor
     public AddressDbM() { }
+
+    // Seed
     public override AddressDbM Seed(SeedGenerator seeding)
     {
         base.Seed(seeding);

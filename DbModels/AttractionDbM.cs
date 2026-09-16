@@ -19,25 +19,30 @@ sealed public class AttractionDbM : Attraction, ISeed<AttractionDbM>, IEquatable
     public Guid? AddressId { get; set; }
 
     // Mapping relations
+    // One attraction can have many reviews
     [NotMapped]
     public override List<IReview> Reviews { get => ReviewsDbM?.ToList<IReview>(); set => throw new NotImplementedException(); }
     [JsonIgnore]
     public List<ReviewDbM> ReviewsDbM { get; set; }
 
+    // Many attractions can have many categories
     [NotMapped]
     public override List<ICategory> Categories { get => CategoriesDbM?.ToList<ICategory>(); set => throw new NotImplementedException(); }
     [JsonIgnore]
     [Required] // ??
     public List<CategoryDbM> CategoriesDbM { get; set; }
 
+    // Many attractions can have one address
     [NotMapped]
     public override IAddress Address { get => AddressDbM; set => throw new NotImplementedException(); }
     [JsonIgnore]
     [ForeignKey("AddressId")]
     public AddressDbM AddressDbM { get; set; }
 
-    // Constructors
+    // Constructor
     public AttractionDbM() { }
+
+    // Seed
     public override AttractionDbM Seed(SeedGenerator seeder)
     {
         base.Seed(seeder);
