@@ -43,15 +43,15 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region override modelbuilder
-        modelBuilder.Entity("DbModels.UserDbM", b =>
-        {
-            b.HasOne("DbModels.AddressDbM", "AddressDbM")
-                .WithMany("UserDbM")
-                .HasForeignKey("AddressId")
-                .OnDelete(DeleteBehavior.SetNull);
+        modelBuilder.Entity("DbModels.AttractionDbM", b =>
+                {
+                    b.HasOne("DbModels.AddressDbM", "AddressDbM")
+                        .WithMany("AttractionsDbM")
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-            b.Navigation("AddressDbM");
-        });
+                    b.Navigation("AddressDbM");
+                });
         #endregion
 
         base.OnModelCreating(modelBuilder);

@@ -31,11 +31,6 @@ sealed public class AttractionDbM : Attraction, ISeed<AttractionDbM>, IEquatable
     public List<CategoryDbM> CategoriesDbM { get; set; }
 
     [NotMapped]
-    public override List<IUser> Users { get => UsersDbM?.ToList<IUser>(); set => throw new NotImplementedException(); }
-    [JsonIgnore]
-    public List<UserDbM> UsersDbM { get; set; }
-
-    [NotMapped]
     public override IAddress Address { get => AddressDbM; set => throw new NotImplementedException(); }
     [JsonIgnore]
     [ForeignKey("AddressId")]

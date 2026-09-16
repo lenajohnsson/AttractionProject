@@ -9,7 +9,6 @@ public class Attraction : IAttraction, ISeed<Attraction>, IEquatable<Attraction>
     public virtual string Description { get; set; }
     public virtual List<IReview> Reviews { get; set; }
     public virtual List<ICategory> Categories { get; set; }
-    public virtual List<IUser> Users { get; set; }
     public virtual IAddress Address { get; set; }
 
     public bool Seeded { get; set; } = false;

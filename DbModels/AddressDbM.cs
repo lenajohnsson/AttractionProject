@@ -15,6 +15,7 @@ sealed public class AddressDbM : Address, ISeed<AddressDbM>, IEquatable<AddressD
     public override Guid AddressId { get; set; }
     public override string StreetAddress { get; set; }
     public override int ZipCode { get; set; }
+    [Required]
     public override string City { get; set; }
     [Required]
     public override string Country { get; set; }
@@ -24,11 +25,6 @@ sealed public class AddressDbM : Address, ISeed<AddressDbM>, IEquatable<AddressD
     public override List<IAttraction> Attractions { get => AttractionsDbM?.ToList<IAttraction>(); set => throw new NotImplementedException(); }
     [JsonIgnore]
     public List<AttractionDbM> AttractionsDbM { get; set; }
-
-    [NotMapped]
-    public override List<IUser> Users { get => UsersDbM?.ToList<IUser>(); set => throw new NotImplementedException(); }
-    [JsonIgnore]
-    public List<UserDbM> UsersDbM { get; set; }
 
     //Constructors
     public AddressDbM() { }

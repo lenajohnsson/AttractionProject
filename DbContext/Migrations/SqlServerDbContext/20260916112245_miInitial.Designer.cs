@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbContext.Migrations.SqlServerDbContext
 {
     [DbContext(typeof(MainDbContext.SqlServerDbContext))]
-    [Migration("20260911145957_miInitial")]
+    [Migration("20260916112245_miInitial")]
     partial class miInitial
     {
         /// <inheritdoc />
@@ -40,21 +40,6 @@ namespace DbContext.Migrations.SqlServerDbContext
                     b.ToTable("AttractionDbMCategoryDbM");
                 });
 
-            modelBuilder.Entity("AttractionDbMUserDbM", b =>
-                {
-                    b.Property<Guid>("AttractionsDbMAttractionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UsersDbMUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("AttractionsDbMAttractionId", "UsersDbMUserId");
-
-                    b.HasIndex("UsersDbMUserId");
-
-                    b.ToTable("AttractionDbMUserDbM");
-                });
-
             modelBuilder.Entity("DbModels.AddressDbM", b =>
                 {
                     b.Property<Guid>("AddressId")
@@ -62,6 +47,7 @@ namespace DbContext.Migrations.SqlServerDbContext
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasColumnType("varchar(200)");
 
                     b.Property<string>("Country")
@@ -81,6 +67,10 @@ namespace DbContext.Migrations.SqlServerDbContext
 
                     b.HasIndex("City");
 
+                    b.HasIndex("StreetAddress", "ZipCode", "City", "Country")
+                        .IsUnique()
+                        .HasFilter("[StreetAddress] IS NOT NULL");
+
                     b.ToTable("Addresses");
                 });
 
@@ -90,7 +80,7 @@ namespace DbContext.Migrations.SqlServerDbContext
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AddressDbMAddressId")
+                    b.Property<Guid?>("AddressId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AttractionName")
@@ -105,7 +95,7 @@ namespace DbContext.Migrations.SqlServerDbContext
 
                     b.HasKey("AttractionId");
 
-                    b.HasIndex("AddressDbMAddressId");
+                    b.HasIndex("AddressId");
 
                     b.ToTable("Attractions");
                 });
@@ -134,7 +124,7 @@ namespace DbContext.Migrations.SqlServerDbContext
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AttractionDbMAttractionId")
+                    b.Property<Guid>("AttractionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comment")
@@ -150,14 +140,14 @@ namespace DbContext.Migrations.SqlServerDbContext
                     b.Property<bool>("Seeded")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("UserDbMUserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ReviewId");
 
-                    b.HasIndex("AttractionDbMAttractionId");
+                    b.HasIndex("AttractionId");
 
-                    b.HasIndex("UserDbMUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
@@ -166,9 +156,6 @@ namespace DbContext.Migrations.SqlServerDbContext
                 {
                     b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AddressDbMAddressId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
@@ -186,8 +173,6 @@ namespace DbContext.Migrations.SqlServerDbContext
                         .HasColumnType("bit");
 
                     b.HasKey("UserId");
-
-                    b.HasIndex("AddressDbMAddressId");
 
                     b.ToTable("Users");
                 });
@@ -207,26 +192,12 @@ namespace DbContext.Migrations.SqlServerDbContext
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AttractionDbMUserDbM", b =>
-                {
-                    b.HasOne("DbModels.AttractionDbM", null)
-                        .WithMany()
-                        .HasForeignKey("AttractionsDbMAttractionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DbModels.UserDbM", null)
-                        .WithMany()
-                        .HasForeignKey("UsersDbMUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DbModels.AttractionDbM", b =>
                 {
                     b.HasOne("DbModels.AddressDbM", "AddressDbM")
                         .WithMany("AttractionsDbM")
-                        .HasForeignKey("AddressDbMAddressId");
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("AddressDbM");
                 });
@@ -235,31 +206,24 @@ namespace DbContext.Migrations.SqlServerDbContext
                 {
                     b.HasOne("DbModels.AttractionDbM", "AttractionDbM")
                         .WithMany("ReviewsDbM")
-                        .HasForeignKey("AttractionDbMAttractionId");
+                        .HasForeignKey("AttractionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DbModels.UserDbM", "UserDbM")
                         .WithMany("ReviewsDbM")
-                        .HasForeignKey("UserDbMUserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AttractionDbM");
 
                     b.Navigation("UserDbM");
                 });
 
-            modelBuilder.Entity("DbModels.UserDbM", b =>
-                {
-                    b.HasOne("DbModels.AddressDbM", "AddressDbM")
-                        .WithMany("UsersDbM")
-                        .HasForeignKey("AddressDbMAddressId");
-
-                    b.Navigation("AddressDbM");
-                });
-
             modelBuilder.Entity("DbModels.AddressDbM", b =>
                 {
                     b.Navigation("AttractionsDbM");
-
-                    b.Navigation("UsersDbM");
                 });
 
             modelBuilder.Entity("DbModels.AttractionDbM", b =>

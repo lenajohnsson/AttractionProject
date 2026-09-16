@@ -32,7 +32,7 @@ public class AdminDbRepos
         {
             NrSeededAttractions = await _dbContext.Attractions.Where(a => a.Seeded).CountAsync(),
             NrUnSeededAttractions = await _dbContext.Attractions.Where(a => !a.Seeded).CountAsync(),
-            NrAttractionsWithReviews = await _dbContext.Attractions.Where(a => a.ReviewsDbM != null).CountAsync(),
+            NrAttractionsWithReviews = await _dbContext.Attractions.Where(a => a.ReviewsDbM.Any()).CountAsync(),
 
             NrSeededAddresses = await _dbContext.Addresses.Where(a => a.Seeded).CountAsync(),
             NrUnseededAddresses = await _dbContext.Addresses.Where(a => !a.Seeded).CountAsync(),
@@ -65,29 +65,32 @@ public class AdminDbRepos
 
         // minst 50 användare, 
         // 11 länder, 
-        // 100 städer, 
+        // 110 städer, 
         // 1000 sevärdheter
         // 0 - 20 kommentarer
 
         var attractions = seeder.UniqueItemsToList<AttractionDbM>(nrItems);
         var attractionAddresses = seeder.UniqueItemsToList<AddressDbM>(nrItems);
-        var userAddresses = seeder.UniqueItemsToList<AddressDbM>(nrItems);
-        var users = seeder.ItemsToList<UserDbM>(nrItems);
+        // var userAddresses = seeder.UniqueItemsToList<AddressDbM>(nrItems);
+        var users = seeder.ItemsToList<UserDbM>(50);
 
-        foreach (var user in users)
-        {
 
-            user.AddressDbM = seeder.FromList(seeder.UniqueItemsPickedFromList(1, userAddresses));
-        }
 
         foreach (var attraction in attractions)
         {
             attraction.AddressDbM = seeder.FromList(attractionAddresses);
             attraction.CategoriesDbM = seeder.ItemsToList<CategoryDbM>(seeder.Next(1, 3));
-            attraction.ReviewsDbM = seeder.ItemsToList<ReviewDbM>(seeder.Next(1, 21));
-            attraction.UsersDbM = seeder.ItemsToList<UserDbM>(seeder.Next(1, 6));
+            var reviews = seeder.ItemsToList<ReviewDbM>(seeder.Next(1, 21));
+
+            foreach (var review in reviews)
+            {
+                review.UserDbM = seeder.FromList(users);
+            }
+
+            attraction.ReviewsDbM = reviews;
         }
 
+        _dbContext.Users.AddRange(users);
         _dbContext.Attractions.AddRange(attractions);
 
         //Save changes to the database

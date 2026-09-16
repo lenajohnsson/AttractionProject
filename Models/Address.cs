@@ -10,7 +10,6 @@ public class Address : IAddress, ISeed<Address>, IEquatable<Address>
     public virtual string City { get; set; }
     public virtual string Country { get; set; }
     public virtual List<IAttraction> Attractions { get; set; }
-    public virtual List<IUser> Users { get; set; }
     public bool Seeded { get; set; } = false;
 
     public Address() { }

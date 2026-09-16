@@ -16,25 +16,11 @@ sealed public class UserDbM : User, ISeed<UserDbM>
     public override string LastName { get; set; }
     public override string Email { get; set; }
 
-    // Foreign Key variable
-    public Guid? AddressId { get; set; }
-
     // Mapping relations
     [NotMapped]
     public override List<IReview> Reviews { get => ReviewsDbM?.ToList<IReview>(); set => throw new NotImplementedException(); }
     [JsonIgnore]
     public List<ReviewDbM> ReviewsDbM { get; set; }
-
-    [NotMapped]
-    public override List<IAttraction> Attractions { get => AttractionsDbM?.ToList<IAttraction>(); set => throw new NotImplementedException(); }
-    [JsonIgnore]
-    public List<AttractionDbM> AttractionsDbM { get; set; }
-
-    [NotMapped]
-    public override IAddress Address { get => AddressDbM; set => throw new NotImplementedException(); }
-    [JsonIgnore]
-    [ForeignKey("AddressId")]
-    public AddressDbM AddressDbM { get; set; }
 
     // Constructors
     public UserDbM() { }
