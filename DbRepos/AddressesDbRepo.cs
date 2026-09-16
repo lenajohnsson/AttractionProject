@@ -20,16 +20,54 @@ public class AddressesDbRepo
         _logger = logger;
     }
 
-    public async Task<ResponsePageDto<IAddress>> ReadAddressesAsync()
+    public async Task<ResponsePageDto<IAddress>> ReadAddressesAsync
+        (bool seeded, bool flat, string filter, int pageNr, int pageSz)
     {
-        IQueryable<AddressDbM> query = _dbContext.Addresses;
+        if (filter == null)
+            filter = "";
+
+        IQueryable<AddressDbM> query;
+
+        if (flat)
+        {
+            query = _dbContext.Addresses;
+        }
+        else
+        {
+            query = _dbContext.Addresses
+                .Include(i => i.AttractionsDbM)
+                .ThenInclude(i => i.CategoriesDbM)
+                .Include(i => i.AttractionsDbM)
+                .ThenInclude(i => i.ReviewsDbM)
+                .ThenInclude(i => i.UserDbM);
+        }
+
         var ret = new ResponsePageDto<IAddress>()
         {
 #if DEBUG
             ConnectionString = _dbContext.dbConnection,
 #endif
-            DbItemsCount = await query.CountAsync(),
-            PageItems = await query.ToListAsync<IAddress>()
+
+            // Counting objects, filtered or not
+            DbItemsCount = await query
+            .Where(i => (i.Seeded == seeded) &&
+                        (i.StreetAddress.ToLower().Contains(filter) ||
+                            i.City.ToLower().Contains(filter) ||
+                            i.Country.ToLower().Contains(filter))).CountAsync(),
+
+            // Listing objects, filtered or not
+            PageItems = await query
+            .Where(i => (i.Seeded == seeded) &&
+                        (i.StreetAddress.ToLower().Contains(filter) ||
+                            i.City.ToLower().Contains(filter) ||
+                            i.Country.ToLower().Contains(filter)))
+            // Pagination
+            .Skip(pageNr * pageSz)
+            .Take(pageSz)
+            .ToListAsync<IAddress>(),
+
+            PageNr = pageNr,
+            PageSize = pageSz
         };
         return ret;
     }

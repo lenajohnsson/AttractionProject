@@ -47,6 +47,11 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
 
                     b.Navigation("AddressDbM");
                 });
+        modelBuilder.Entity("DbModels.ReviewDbM", b =>
+                {
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
+                });
         #endregion
 
         base.OnModelCreating(modelBuilder);
