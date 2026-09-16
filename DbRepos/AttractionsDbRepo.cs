@@ -36,8 +36,7 @@ public class AttractionsDbRepo
         {
             query = _dbContext.Attractions
                 .Include(i => i.AddressDbM)
-                .Include(i => i.CategoriesDbM)
-                .Include(i => i.ReviewsDbM);
+                .Include(i => i.CategoriesDbM);
         }
 
         var ret = new ResponsePageDto<IAttraction>()
@@ -47,11 +46,19 @@ public class AttractionsDbRepo
 #endif
             DbItemsCount = await query
             .Where(i => (i.Seeded == seeded) &&
-                        i.AttractionName.ToLower().Contains(filter)).CountAsync(),
+                        (i.AttractionName.ToLower().Contains(filter) ||
+                        i.Description.ToLower().Contains(filter) ||
+                        i.CategoriesDbM.Any(c => c.CategoryType.ToLower().Contains(filter)) ||
+                        i.AddressDbM.Country.ToLower().Contains(filter) ||
+                        i.AddressDbM.City.ToLower().Contains(filter))).CountAsync(),
 
             PageItems = await query
             .Where(i => (i.Seeded == seeded) &&
-                        i.AttractionName.ToLower().Contains(filter))
+                        (i.AttractionName.ToLower().Contains(filter) ||
+                        i.Description.ToLower().Contains(filter) ||
+                        i.CategoriesDbM.Any(c => c.CategoryType.ToLower().Contains(filter)) ||
+                        i.AddressDbM.Country.ToLower().Contains(filter) ||
+                        i.AddressDbM.City.ToLower().Contains(filter)))
             .Skip(pageNr * pageSz)
             .Take(pageSz)
             .ToListAsync<IAttraction>(),

@@ -16,6 +16,7 @@ sealed public class CategoryDbM : Category, ISeed<CategoryDbM>
 
     // Mapping relations
     // Many categories can have many attractions
+    [JsonIgnore]
     [NotMapped]
     public override List<IAttraction> Attractions { get => AttractionsDbM?.ToList<IAttraction>(); set => throw new NotImplementedException(); }
     [JsonIgnore]

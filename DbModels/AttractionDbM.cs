@@ -20,18 +20,21 @@ sealed public class AttractionDbM : Attraction, ISeed<AttractionDbM>, IEquatable
 
     // Mapping relations
     // One attraction can have many reviews
+    [JsonIgnore]
     [NotMapped]
     public override List<IReview> Reviews { get => ReviewsDbM?.ToList<IReview>(); set => throw new NotImplementedException(); }
     [JsonIgnore]
     public List<ReviewDbM> ReviewsDbM { get; set; }
 
     // Many attractions can have many categories
+    [JsonIgnore]
     [NotMapped]
     public override List<ICategory> Categories { get => CategoriesDbM?.ToList<ICategory>(); set => throw new NotImplementedException(); }
     [JsonIgnore]
     public List<CategoryDbM> CategoriesDbM { get; set; }
 
     // Many attractions can have one address
+    [JsonIgnore]
     [NotMapped]
     public override IAddress Address { get => AddressDbM; set => throw new NotImplementedException(); }
     [JsonIgnore]

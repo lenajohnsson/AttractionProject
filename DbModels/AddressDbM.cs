@@ -22,6 +22,7 @@ sealed public class AddressDbM : Address, ISeed<AddressDbM>, IEquatable<AddressD
 
     // Mapping relations
     // One address can have many attractions
+    [JsonIgnore]
     [NotMapped]
     public override List<IAttraction> Attractions { get => AttractionsDbM?.ToList<IAttraction>(); set => throw new NotImplementedException(); }
     [JsonIgnore]

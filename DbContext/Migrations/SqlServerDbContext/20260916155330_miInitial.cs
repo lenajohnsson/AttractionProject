@@ -147,12 +147,6 @@ namespace DbContext.Migrations.SqlServerDbContext
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_CategoryType",
-                table: "Categories",
-                column: "CategoryType",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reviews_AttractionId",
                 table: "Reviews",
                 column: "AttractionId");

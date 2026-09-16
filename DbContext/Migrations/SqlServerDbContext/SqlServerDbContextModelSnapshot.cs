@@ -110,9 +110,6 @@ namespace DbContext.Migrations.SqlServerDbContext
 
                     b.HasKey("CategoryId");
 
-                    b.HasIndex("CategoryType")
-                        .IsUnique();
-
                     b.ToTable("Categories");
                 });
 
