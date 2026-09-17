@@ -69,7 +69,7 @@ public class AttractionsDbRepo
         return ret;
     }
 
-    public async Task<ResponsePageDto<IAttraction>> ReadAttractionsWithoutReview(int pageNr, int pageSz)
+    public async Task<ResponsePageDto<IAttraction>> ReadAttractionsWithoutReviewAsync(int pageNr, int pageSz)
     {
         IQueryable<AttractionDbM> query = _dbContext.Attractions
             .Include(i => i.ReviewsDbM);
@@ -92,5 +92,38 @@ public class AttractionsDbRepo
             PageSize = pageSz
         };
         return ret;
+    }
+
+    public async Task<ResponseItemDto<IAttraction>> ReadAttractionAsync(Guid id, bool flat)
+    {
+        IAttraction item;
+        if (flat)
+        {
+            var query = _dbContext.Attractions
+                .Where(i => i.AttractionId == id);
+
+            item = await query.FirstOrDefaultAsync<IAttraction>();
+        }
+        else
+        {
+            var query = _dbContext.Attractions
+                .Include(i => i.CategoriesDbM)
+                .Include(i => i.AddressDbM)
+                .Include(i => i.ReviewsDbM)
+                .Where(i => i.AttractionId == id);
+
+            item = await query.FirstOrDefaultAsync<IAttraction>();
+        }
+
+        if (item == null) throw new ArgumentException($"Item {id} does not exist");
+
+        return new ResponseItemDto<IAttraction>()
+        {
+#if DEBUG
+            ConnectionString = _dbContext.dbConnection,
+#endif
+            Item = item
+
+        };
     }
 }

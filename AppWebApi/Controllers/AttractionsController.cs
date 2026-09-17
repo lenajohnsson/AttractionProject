@@ -58,12 +58,38 @@ namespace AppWebApi.Controllers
                 _logger.LogInformation($"{nameof(AttractionWithoutReview)}: {nameof(pageNrArg)} - {pageNrArg}, " +
                     $"{nameof(pageSzArg)} - {pageSzArg}");
 
-                var res = await _service.ReadAttractionsWithoutReview(pageNrArg, pageSzArg);
+                var res = await _service.ReadAttractionsWithoutReviewAsync(pageNrArg, pageSzArg);
                 return Ok(res);
             }
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(AttractionWithoutReview)}: {ex.Message} - {ex.InnerException}");
+                return BadRequest($"{ex.Message} - {ex.InnerException}");
+            }
+        }
+
+        //GET: api/attractions/readitem
+        [HttpGet()]
+        [ActionName("ReadItem")]
+        [ProducesResponseType(200, Type = typeof(IAttraction))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(404, Type = typeof(string))]
+        public async Task<IActionResult> ReadItem(string id = null, string flat = "false")
+        {
+            try
+            {
+                var idArg = Guid.Parse(id);
+                bool flatArg = bool.Parse(flat);
+
+                _logger.LogInformation($"{nameof(ReadItem)}: {nameof(idArg)} - {idArg}, {nameof(flatArg)} - {flatArg}");
+
+                var item = await _service.ReadAttractionAsync(idArg, flatArg);
+                if (item == null) throw new ArgumentException($"Item {id} does not exist");
+                return Ok(item);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(ReadItem)}: {ex.Message} - {ex.InnerException}");
                 return BadRequest($"{ex.Message} - {ex.InnerException}");
             }
         }
@@ -75,4 +101,5 @@ namespace AppWebApi.Controllers
             _logger = logger;
         }
     }
+
 }

@@ -21,7 +21,6 @@ sealed public class ReviewDbM : Review, ISeed<ReviewDbM>
 
     // Mapping relations
     // Many reviews can have one attraction
-    [JsonIgnore]
     [NotMapped]
     public override IAttraction Attraction { get => AttractionDbM; set => throw new NotImplementedException(); }
     [JsonIgnore]
@@ -29,7 +28,6 @@ sealed public class ReviewDbM : Review, ISeed<ReviewDbM>
     public AttractionDbM AttractionDbM { get; set; }
 
     // Many reviews can have one user
-    [JsonIgnore]
     [NotMapped]
     public override IUser User { get => UserDbM; set => throw new NotImplementedException(); }
     [JsonIgnore]

@@ -17,12 +17,11 @@ public class AttractionsService : IAttractionsService
         _logger = logger;
     }
 
-    public async Task<ResponsePageDto<AttractionReadListDto>> ReadAttractionsAsync
-        (bool seeded, bool flat, string filter, int pageNr, int pageSz)
+    public async Task<ResponsePageDto<AttractionReadListDto>> ReadAttractionsAsync(bool seeded, bool flat, string filter, int pageNr, int pageSz)
     {
-        var efResult = await _repo.ReadAttractionsAsync(seeded, flat, filter, pageNr, pageSz);
+        var result = await _repo.ReadAttractionsAsync(seeded, flat, filter, pageNr, pageSz);
 
-        var dtoItems = efResult.PageItems.Select(a => new AttractionReadListDto
+        var dtoItems = result.PageItems.Select(a => new AttractionReadListDto
         {
             AttractionId = a.AttractionId,
             AttractionName = a.AttractionName,
@@ -34,12 +33,13 @@ public class AttractionsService : IAttractionsService
 
         return new ResponsePageDto<AttractionReadListDto>
         {
-            DbItemsCount = efResult.DbItemsCount,
+            DbItemsCount = result.DbItemsCount,
             PageItems = dtoItems,
-            PageNr = efResult.PageNr,
-            PageSize = efResult.PageSize
+            PageNr = result.PageNr,
+            PageSize = result.PageSize
         };
     }
-    public async Task<ResponsePageDto<IAttraction>> ReadAttractionsWithoutReview(int pageNr, int pageSz) =>
-        await _repo.ReadAttractionsWithoutReview(pageNr, pageSz);
+    public Task<ResponsePageDto<IAttraction>> ReadAttractionsWithoutReviewAsync(int pageNr, int pageSz) => _repo.ReadAttractionsWithoutReviewAsync(pageNr, pageSz);
+
+    public Task<ResponseItemDto<IAttraction>> ReadAttractionAsync(Guid id, bool flat) => _repo.ReadAttractionAsync(id, flat);
 }

@@ -18,7 +18,6 @@ sealed public class UserDbM : User, ISeed<UserDbM>
 
     // Mapping relations
     // One user can have many reviews
-    [JsonIgnore]
     [NotMapped]
     public override List<IReview> Reviews { get => ReviewsDbM?.ToList<IReview>(); set => throw new NotImplementedException(); }
     [JsonIgnore]

@@ -11,3 +11,4 @@ public class AttractionReadListDto
 
     public List<string> Categories { get; set; }
 }
+
