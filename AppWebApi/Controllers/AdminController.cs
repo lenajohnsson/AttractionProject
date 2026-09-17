@@ -32,7 +32,7 @@ namespace AppWebApi.Controllers
         [ActionName("Seed")]
         [ProducesResponseType(200, Type = typeof(GuestUserInfoAllDto))]
         [ProducesResponseType(400, Type = typeof(string))]
-        public async Task<IActionResult> Seed(int nrItems = 100)
+        public async Task<IActionResult> Seed(int nrItems = 1000)
         {
             try
             {

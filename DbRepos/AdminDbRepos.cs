@@ -86,7 +86,7 @@ public class AdminDbRepos
                 review.UserDbM = seeder.FromList(users);
             }
 
-            attraction.ReviewsDbM = reviews;
+            attraction.ReviewsDbM = (seeder.Bool) ? reviews : null;
         }
 
         _dbContext.Users.AddRange(users);

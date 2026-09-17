@@ -68,4 +68,29 @@ public class AttractionsDbRepo
         };
         return ret;
     }
+
+    public async Task<ResponsePageDto<IAttraction>> ReadAttractionsWithoutReview(int pageNr, int pageSz)
+    {
+        IQueryable<AttractionDbM> query = _dbContext.Attractions
+            .Include(i => i.ReviewsDbM);
+
+        var ret = new ResponsePageDto<IAttraction>()
+        {
+#if DEBUG
+            ConnectionString = _dbContext.dbConnection,
+#endif
+            DbItemsCount = await query
+                .Where(i => !i.ReviewsDbM.Any()).CountAsync(),
+
+            PageItems = await query
+                .Where(i => !i.ReviewsDbM.Any())
+                .Skip(pageNr * pageSz)
+                .Take(pageSz)
+                .ToListAsync<IAttraction>(),
+
+            PageNr = pageNr,
+            PageSize = pageSz
+        };
+        return ret;
+    }
 }

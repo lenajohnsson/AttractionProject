@@ -40,4 +40,6 @@ public class AttractionsService : IAttractionsService
             PageSize = efResult.PageSize
         };
     }
+    public async Task<ResponsePageDto<IAttraction>> ReadAttractionsWithoutReview(int pageNr, int pageSz) =>
+        await _repo.ReadAttractionsWithoutReview(pageNr, pageSz);
 }
