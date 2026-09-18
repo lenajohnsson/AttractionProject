@@ -20,3 +20,20 @@ public class AttractionNoCommentDto
     public string Country { get; set; }
     public List<string> Reviews { get; set; }
 }
+
+public class AttractionReadItemDto
+{
+    public Guid AttractionId { get; set; }
+    public string AttractionName { get; set; }
+    public string Description { get; set; }
+    public List<string> Categories { get; set; }
+    public List<ReviewReadDto> Reviews { get; set; }
+
+}
+
+public class ReviewReadDto
+{
+    public string Comment { get; set; }
+    public int ReviewGrade { get; set; }
+    public DateTime Date { get; set; }
+}

@@ -109,7 +109,6 @@ public class AttractionsDbRepo
         {
             var query = _dbContext.Attractions
                 .Include(i => i.CategoriesDbM)
-                .Include(i => i.AddressDbM)
                 .Include(i => i.ReviewsDbM)
                 .Where(i => i.AttractionId == id);
 

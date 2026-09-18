@@ -62,5 +62,28 @@ public class AttractionsService : IAttractionsService
 
     }
 
-    public Task<ResponseItemDto<IAttraction>> ReadAttractionAsync(Guid id, bool flat) => _repo.ReadAttractionAsync(id, flat);
+    public async Task<ResponseItemDto<AttractionReadItemDto>> ReadAttractionAsync(Guid id, bool flat)
+    {
+        var result = await _repo.ReadAttractionAsync(id, flat);
+        var attr = result.Item;
+
+        var dtoItems = new AttractionReadItemDto
+        {
+            AttractionId = attr.AttractionId,
+            AttractionName = attr.AttractionName,
+            Description = attr.Description,
+            Categories = attr.Categories?.Select(c => c.CategoryType).ToList(),
+            Reviews = attr.Reviews?.Select(r => new ReviewReadDto
+            {
+                Comment = r.Comment,
+                ReviewGrade = r.ReviewGrade,
+                Date = r.Date
+            }).ToList()
+        };
+
+        return new ResponseItemDto<AttractionReadItemDto>
+        {
+            Item = dtoItems
+        };
+    }
 }

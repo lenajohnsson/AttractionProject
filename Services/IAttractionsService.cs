@@ -10,5 +10,5 @@ public interface IAttractionsService
 
     public Task<ResponsePageDto<AttractionNoCommentDto>> ReadAttractionsWithoutReviewAsync(int pageNr, int pageSz);
 
-    public Task<ResponseItemDto<IAttraction>> ReadAttractionAsync(Guid id, bool flat);
+    public Task<ResponseItemDto<AttractionReadItemDto>> ReadAttractionAsync(Guid id, bool flat);
 }
