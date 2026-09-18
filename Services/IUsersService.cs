@@ -5,5 +5,5 @@ namespace Services;
 
 public interface IUsersService
 {
-    public Task<ResponsePageDto<IUser>> ReadUsersAsync();
+    public Task<ResponsePageDto<UserReadDto>> ReadUsersAsync(int pageNr, int pageSz);
 }

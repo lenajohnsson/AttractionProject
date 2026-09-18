@@ -20,14 +20,27 @@ public class UsersDbRepo
         _logger = logger;
     }
 
-    public async Task<ResponsePageDto<IUser>> ReadUsersAsync()
+    public async Task<ResponsePageDto<IUser>> ReadUsersAsync(int pageNr, int pageSz)
     {
-        IQueryable<UserDbM> query = _dbContext.Users;
+        IQueryable<UserDbM> query = _dbContext.Users
+            .Include(i => i.ReviewsDbM);
+
         var ret = new ResponsePageDto<IUser>()
         {
+#if DEBUG
             ConnectionString = _dbContext.dbConnection,
-            DbItemsCount = await query.CountAsync(),
-            PageItems = await query.ToListAsync<IUser>()
+#endif
+            DbItemsCount = await query
+                .Where(i => i.ReviewsDbM.Any()).CountAsync(),
+
+            PageItems = await query
+                .Where(i => i.ReviewsDbM.Any())
+                .Skip(pageNr * pageSz)
+                .Take(pageSz)
+                .ToListAsync<IUser>(),
+
+            PageNr = pageNr,
+            PageSize = pageSz
         };
         return ret;
     }

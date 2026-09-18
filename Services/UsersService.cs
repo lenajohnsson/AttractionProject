@@ -17,5 +17,30 @@ public class UsersService : IUsersService
         _logger = logger;
     }
 
-    public Task<ResponsePageDto<IUser>> ReadUsersAsync() => _repo.ReadUsersAsync();
+    public async Task<ResponsePageDto<UserReadDto>> ReadUsersAsync(int pageNr, int pageSz)
+    {
+        var result = await _repo.ReadUsersAsync(pageNr, pageSz);
+
+        var dtoItems = result.PageItems.Select(u => new UserReadDto
+        {
+            UserId = u.UserId,
+            FirstName = u.FirstName,
+            LastName = u.LastName,
+            Email = u.Email,
+            Reviews = u.Reviews?.Select(r => new ReviewReadDto
+            {
+                Comment = r.Comment,
+                ReviewGrade = r.ReviewGrade,
+                Date = r.Date
+            }).ToList()
+        }).ToList();
+
+        return new ResponsePageDto<UserReadDto>
+        {
+            DbItemsCount = result.DbItemsCount,
+            PageItems = dtoItems,
+            PageNr = result.PageNr,
+            PageSize = result.PageSize
+        };
+    }
 }

@@ -12,22 +12,25 @@ namespace AppWebApi.Controllers
         readonly IUsersService _service;
         ILogger<UsersController> _logger;
 
-        //GET: api/users/read
+        //GET: api/users/readusers
         [HttpGet()]
-        [ActionName("Read")]
-        [ProducesResponseType(200, Type = typeof(ResponsePageDto<IUser>))]
+        [ActionName("ReadUsers")]
+        [ProducesResponseType(200, Type = typeof(ResponsePageDto<UserReadDto>))]
         [ProducesResponseType(400, Type = typeof(string))]
-        public async Task<IActionResult> Read()
+        public async Task<IActionResult> ReadUsers(string pageNr = "0", string pageSz = "10")
         {
             try
             {
-                _logger.LogInformation($"{nameof(Read)}");
-                var res = await _service.ReadUsersAsync();
+                int pageNrArg = int.Parse(pageNr);
+                int pageSzArg = int.Parse(pageSz);
+
+                _logger.LogInformation($"{nameof(ReadUsers)}: {nameof(pageNrArg)} - {pageNrArg}, {nameof(pageSzArg)} - {pageSzArg}");
+                var res = await _service.ReadUsersAsync(pageNrArg, pageSzArg);
                 return Ok(res);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(Read)}: {ex.Message} - {ex.InnerException}");
+                _logger.LogError($"{nameof(ReadUsers)}: {ex.Message} - {ex.InnerException}");
                 return BadRequest($"{ex.Message} - {ex.InnerException}");
             }
         }
