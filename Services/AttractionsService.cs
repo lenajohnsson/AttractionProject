@@ -39,7 +39,28 @@ public class AttractionsService : IAttractionsService
             PageSize = result.PageSize
         };
     }
-    public Task<ResponsePageDto<IAttraction>> ReadAttractionsWithoutReviewAsync(int pageNr, int pageSz) => _repo.ReadAttractionsWithoutReviewAsync(pageNr, pageSz);
+    public async Task<ResponsePageDto<AttractionNoCommentDto>> ReadAttractionsWithoutReviewAsync(int pageNr, int pageSz)
+    {
+        var result = await _repo.ReadAttractionsWithoutReviewAsync(pageNr, pageSz);
+
+        var dtoItems = result.PageItems.Select(a => new AttractionNoCommentDto
+        {
+            AttractionId = a.AttractionId,
+            AttractionName = a.AttractionName,
+            Description = a.Description,
+            Country = a.Address?.Country,
+            Reviews = a.Reviews?.Select(r => r.Comment).ToList()
+        }).ToList();
+
+        return new ResponsePageDto<AttractionNoCommentDto>
+        {
+            DbItemsCount = result.DbItemsCount,
+            PageItems = dtoItems,
+            PageNr = result.PageNr,
+            PageSize = result.PageSize
+        };
+
+    }
 
     public Task<ResponseItemDto<IAttraction>> ReadAttractionAsync(Guid id, bool flat) => _repo.ReadAttractionAsync(id, flat);
 }

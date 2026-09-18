@@ -72,7 +72,8 @@ public class AttractionsDbRepo
     public async Task<ResponsePageDto<IAttraction>> ReadAttractionsWithoutReviewAsync(int pageNr, int pageSz)
     {
         IQueryable<AttractionDbM> query = _dbContext.Attractions
-            .Include(i => i.ReviewsDbM);
+            .Include(i => i.ReviewsDbM)
+            .Include(i => i.AddressDbM);
 
         var ret = new ResponsePageDto<IAttraction>()
         {

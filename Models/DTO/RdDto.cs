@@ -12,3 +12,11 @@ public class AttractionReadListDto
     public List<string> Categories { get; set; }
 }
 
+public class AttractionNoCommentDto
+{
+    public Guid AttractionId { get; set; }
+    public string AttractionName { get; set; }
+    public string Description { get; set; }
+    public string Country { get; set; }
+    public List<string> Reviews { get; set; }
+}

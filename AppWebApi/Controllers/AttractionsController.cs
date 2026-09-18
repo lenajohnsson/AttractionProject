@@ -12,12 +12,12 @@ namespace AppWebApi.Controllers
         readonly IAttractionsService _service;
         ILogger<AttractionsController> _logger;
 
-        //GET: api/attractions/readwithfilter
+        //GET: api/attractions/readattractions
         [HttpGet()]
-        [ActionName("ReadWithFilter")]
+        [ActionName("ReadAttractions")]
         [ProducesResponseType(200, Type = typeof(ResponsePageDto<AttractionReadListDto>))]
         [ProducesResponseType(400, Type = typeof(string))]
-        public async Task<IActionResult> ReadWithFilter
+        public async Task<IActionResult> ReadAttractions
             (string seeded = "true", string flat = "false", string filter = null,
             string pageNr = "0", string pageSz = "10")
         {
@@ -28,7 +28,7 @@ namespace AppWebApi.Controllers
                 int pageNrArg = int.Parse(pageNr);
                 int pageSzArg = int.Parse(pageSz);
 
-                _logger.LogInformation($"{nameof(ReadWithFilter)}: {nameof(seededArg)} - {seededArg}, " +
+                _logger.LogInformation($"{nameof(ReadAttractions)}: {nameof(seededArg)} - {seededArg}, " +
                     $"{nameof(flatArg)} - {flatArg}, {nameof(pageNrArg)} - {pageNrArg}, " +
                     $"{nameof(pageSzArg)} - {pageSzArg} ");
 
@@ -38,24 +38,24 @@ namespace AppWebApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(ReadWithFilter)}: {ex.Message} - {ex.InnerException}");
+                _logger.LogError($"{nameof(ReadAttractions)}: {ex.Message} - {ex.InnerException}");
                 return BadRequest($"{ex.Message} - {ex.InnerException}");
             }
         }
 
-        //GET: api/attractions/attractionwithoutreviews
+        //GET: api/attractions/nocomments
         [HttpGet()]
-        [ActionName("AttractionsWithoutReviews")]
-        [ProducesResponseType(200, Type = typeof(ResponsePageDto<IAttraction>))]
+        [ActionName("NoComments")]
+        [ProducesResponseType(200, Type = typeof(ResponsePageDto<AttractionNoCommentDto>))]
         [ProducesResponseType(400, Type = typeof(string))]
-        public async Task<IActionResult> AttractionWithoutReview(string pageNr = "0", string pageSz = "10")
+        public async Task<IActionResult> NoComments(string pageNr = "0", string pageSz = "10")
         {
             try
             {
                 int pageNrArg = int.Parse(pageNr);
                 int pageSzArg = int.Parse(pageSz);
 
-                _logger.LogInformation($"{nameof(AttractionWithoutReview)}: {nameof(pageNrArg)} - {pageNrArg}, " +
+                _logger.LogInformation($"{nameof(NoComments)}: {nameof(pageNrArg)} - {pageNrArg}, " +
                     $"{nameof(pageSzArg)} - {pageSzArg}");
 
                 var res = await _service.ReadAttractionsWithoutReviewAsync(pageNrArg, pageSzArg);
@@ -63,7 +63,7 @@ namespace AppWebApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(AttractionWithoutReview)}: {ex.Message} - {ex.InnerException}");
+                _logger.LogError($"{nameof(NoComments)}: {ex.Message} - {ex.InnerException}");
                 return BadRequest($"{ex.Message} - {ex.InnerException}");
             }
         }
