@@ -14,5 +14,6 @@ public class AdminServiceDb : IAdminService
 
     public Task<ResponseItemDto<GuestUserInfoAllDto>> SeedAsync(int nrItems) => _repo.SeedAsync(nrItems);
     public Task<ResponseItemDto<GuestUserInfoAllDto>> RemoveSeedAsync(bool seeded) => _repo.RemoveSeedAsync(seeded);
+    public Task<ResponseItemDto<GuestUserInfoAllDto>> OverviewAsync() => _repo.OverviewAsync();
 }
 

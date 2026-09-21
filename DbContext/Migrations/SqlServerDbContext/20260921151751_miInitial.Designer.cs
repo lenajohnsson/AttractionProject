@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbContext.Migrations.SqlServerDbContext
 {
     [DbContext(typeof(MainDbContext.SqlServerDbContext))]
-    [Migration("20260921130002_miInitial")]
+    [Migration("20260921151751_miInitial")]
     partial class miInitial
     {
         /// <inheritdoc />
@@ -173,6 +173,22 @@ namespace DbContext.Migrations.SqlServerDbContext
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Models.DTO.GuestUserInfoOverwiewDto", b =>
+                {
+                    b.Property<int>("NrSeededAttractions")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NrSeededCities")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NrSeededUsers")
+                        .HasColumnType("int");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("vwInfoDb", "gstusr");
                 });
 
             modelBuilder.Entity("AttractionDbMCategoryDbM", b =>

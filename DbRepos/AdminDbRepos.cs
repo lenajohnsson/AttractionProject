@@ -56,7 +56,19 @@ public class AdminDbRepos
         };
     }
 
+    public async Task<ResponseItemDto<GuestUserInfoAllDto>> OverviewAsync()
+    {
+        var info = new GuestUserInfoAllDto();
+        info.Overwiew = await _dbContext.InfoView.FirstAsync();
 
+        return new ResponseItemDto<GuestUserInfoAllDto>
+        {
+#if DEBUG
+            ConnectionString = _dbContext.dbConnection,
+#endif
+            Item = info
+        };
+    }
     public async Task<ResponseItemDto<GuestUserInfoAllDto>> SeedAsync(int nrItems)
     {
         //Create a seeder

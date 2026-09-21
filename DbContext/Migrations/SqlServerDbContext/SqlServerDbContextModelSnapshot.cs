@@ -172,6 +172,22 @@ namespace DbContext.Migrations.SqlServerDbContext
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Models.DTO.GuestUserInfoOverwiewDto", b =>
+                {
+                    b.Property<int>("NrSeededAttractions")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NrSeededCities")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NrSeededUsers")
+                        .HasColumnType("int");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("vwInfoDb", "gstusr");
+                });
+
             modelBuilder.Entity("AttractionDbMCategoryDbM", b =>
                 {
                     b.HasOne("DbModels.AttractionDbM", null)

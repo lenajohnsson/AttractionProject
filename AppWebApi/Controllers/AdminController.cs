@@ -30,7 +30,7 @@ namespace AppWebApi.Controllers
         //GET: api/admin/seed?count={count}
         [HttpGet()]
         [ActionName("Seed")]
-        [ProducesResponseType(200, Type = typeof(GuestUserInfoAllDto))]
+        [ProducesResponseType(200, Type = typeof(ResponseItemDto<GuestUserInfoAllDto>))]
         [ProducesResponseType(400, Type = typeof(string))]
         public async Task<IActionResult> Seed(int nrItems = 1000)
         {
@@ -65,6 +65,27 @@ namespace AppWebApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(RemoveSeed)}: {ex.Message} - {ex.InnerException}");
+                return BadRequest($"{ex.Message} - {ex.InnerException}");
+            }
+        }
+
+        //GET: api/admin/overview
+        [HttpGet()]
+        [ActionName("Overview")]
+        [ProducesResponseType(200, Type = typeof(ResponseItemDto<GuestUserInfoAllDto>))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> Overview()
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(Overview)}");
+                var info = await _service.OverviewAsync();
+
+                return Ok(info);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(Overview)}: {ex.Message} - {ex.InnerException}");
                 return BadRequest($"{ex.Message} - {ex.InnerException}");
             }
         }
