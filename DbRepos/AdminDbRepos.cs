@@ -58,8 +58,10 @@ public class AdminDbRepos
 
     public async Task<ResponseItemDto<GuestUserInfoAllDto>> OverviewAsync()
     {
-        var info = new GuestUserInfoAllDto();
-        info.Overwiew = await _dbContext.InfoView.FirstAsync();
+        var info = new GuestUserInfoAllDto
+        {
+            Overview = await _dbContext.InfoView.FirstAsync()
+        };
 
         return new ResponseItemDto<GuestUserInfoAllDto>
         {

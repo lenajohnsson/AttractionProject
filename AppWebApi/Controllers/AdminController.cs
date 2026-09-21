@@ -48,27 +48,6 @@ namespace AppWebApi.Controllers
             }
         }
 
-        //GET: api/admin/removeseed
-        [HttpGet]
-        [ActionName("RemoveSeed")]
-        [ProducesResponseType(200, Type = typeof(ResponseItemDto<GuestUserInfoAllDto>))]
-        [ProducesResponseType(400, Type = typeof(string))]
-        public async Task<IActionResult> RemoveSeed(string seeded = "true")
-        {
-            try
-            {
-                bool seededArg = bool.Parse(seeded);
-                _logger.LogInformation($"{nameof(RemoveSeed)}: {nameof(seededArg)}: {seededArg}");
-                var info = await _service.RemoveSeedAsync(seededArg);
-                return Ok(info);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{nameof(RemoveSeed)}: {ex.Message} - {ex.InnerException}");
-                return BadRequest($"{ex.Message} - {ex.InnerException}");
-            }
-        }
-
         //GET: api/admin/overview
         [HttpGet()]
         [ActionName("Overview")]
@@ -86,6 +65,27 @@ namespace AppWebApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(Overview)}: {ex.Message} - {ex.InnerException}");
+                return BadRequest($"{ex.Message} - {ex.InnerException}");
+            }
+        }
+
+        //GET: api/admin/removeseed
+        [HttpGet]
+        [ActionName("RemoveSeed")]
+        [ProducesResponseType(200, Type = typeof(ResponseItemDto<GuestUserInfoAllDto>))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> RemoveSeed(string seeded = "true")
+        {
+            try
+            {
+                bool seededArg = bool.Parse(seeded);
+                _logger.LogInformation($"{nameof(RemoveSeed)}: {nameof(seededArg)}: {seededArg}");
+                var info = await _service.RemoveSeedAsync(seededArg);
+                return Ok(info);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(RemoveSeed)}: {ex.Message} - {ex.InnerException}");
                 return BadRequest($"{ex.Message} - {ex.InnerException}");
             }
         }

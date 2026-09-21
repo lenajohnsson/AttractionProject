@@ -19,7 +19,7 @@ public class GuestUserInfoDto
     public int NrUnseededCategories { get; set; } = 0;
 }
 
-public class GuestUserInfoOverwiewDto
+public class GuestUserInfoOverviewDto
 {
     public int NrSeededAttractions { get; set; } = 0;
     public int NrSeededUsers { get; set; } = 0;
@@ -59,7 +59,7 @@ public class GuestUserInfoCategoryDto
 public class GuestUserInfoAllDto
 {
     public GuestUserInfoDto Db { get; set; } = null;
-    public GuestUserInfoOverwiewDto Overwiew { get; set; } = null;
+    public GuestUserInfoOverviewDto Overview { get; set; } = null;
     public List<GuestUserInfoAddressDto> Addresses { get; set; } = null;
     public List<GuestUserInfoUserDto> Users { get; set; } = null;
     public List<GuestUserInfoAttractionDto> Attractions { get; set; } = null;

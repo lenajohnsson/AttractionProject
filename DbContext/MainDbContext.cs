@@ -31,7 +31,7 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     #endregion
 
     #region model the View
-    public DbSet<GuestUserInfoOverwiewDto> InfoView { get; set; }
+    public DbSet<GuestUserInfoOverviewDto> InfoView { get; set; }
     #endregion
 
     #region constructors
@@ -43,7 +43,7 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region model the View
-        modelBuilder.Entity<GuestUserInfoOverwiewDto>().ToView("vwInfoDb", "gstusr").HasNoKey();
+        modelBuilder.Entity<GuestUserInfoOverviewDto>().ToView("vwInfoDb", "gstusr").HasNoKey();
         #endregion
 
         #region override modelbuilder

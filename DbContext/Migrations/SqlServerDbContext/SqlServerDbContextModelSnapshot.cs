@@ -172,7 +172,7 @@ namespace DbContext.Migrations.SqlServerDbContext
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Models.DTO.GuestUserInfoOverwiewDto", b =>
+            modelBuilder.Entity("Models.DTO.GuestUserInfoOverviewDto", b =>
                 {
                     b.Property<int>("NrSeededAttractions")
                         .HasColumnType("int");
