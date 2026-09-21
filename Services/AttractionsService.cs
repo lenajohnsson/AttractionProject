@@ -1,5 +1,4 @@
 using DbRepos;
-using Microsoft.Extensions.Logging;
 using Models.DTO;
 
 namespace Services;
@@ -7,13 +6,10 @@ namespace Services;
 public class AttractionsService : IAttractionsService
 {
     readonly AttractionsDbRepo _repo;
-    ILogger<AttractionsService> _logger;
 
-    public AttractionsService(AttractionsDbRepo repo,
-                            ILogger<AttractionsService> logger)
+    public AttractionsService(AttractionsDbRepo repo)
     {
         _repo = repo;
-        _logger = logger;
     }
 
     public Task<ResponsePageDto<AttractionReadListDto>> ReadAttractionsAsync(bool seeded, bool flat, string filter, int pageNr, int pageSz) =>
