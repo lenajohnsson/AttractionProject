@@ -51,7 +51,7 @@ namespace AppWebApi.Controllers
         //GET: api/admin/removeseed
         [HttpGet]
         [ActionName("RemoveSeed")]
-        [ProducesResponseType(200, Type = typeof(GuestUserInfoAllDto))]
+        [ProducesResponseType(200, Type = typeof(ResponseItemDto<GuestUserInfoAllDto>))]
         [ProducesResponseType(400, Type = typeof(string))]
         public async Task<IActionResult> RemoveSeed(string seeded = "true")
         {
@@ -66,44 +66,6 @@ namespace AppWebApi.Controllers
             {
                 _logger.LogError($"{nameof(RemoveSeed)}: {ex.Message} - {ex.InnerException}");
                 return BadRequest($"{ex.Message} - {ex.InnerException}");
-            }
-        }
-
-        //GET: api/admin/environment
-        [HttpGet()]
-        [ActionName("Environment")]
-        [ProducesResponseType(200, Type = typeof(DatabaseConnections.SetupInformation))]
-        public IActionResult Environment()
-        {
-            try
-            {
-                var info = _dbConnections.SetupInfo;
-
-                _logger.LogInformation($"{nameof(Environment)}:\n{JsonConvert.SerializeObject(info)}");
-                return Ok(info);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{nameof(Environment)}: {ex.Message}");
-                return BadRequest(ex.Message);
-            }
-        }
-
-        //GET: api/admin/version
-        [HttpGet()]
-        [ActionName("Version")]
-        [ProducesResponseType(typeof(VersionOptions), 200)]
-        public IActionResult Version()
-        {
-            try
-            {
-                _logger.LogInformation($"{nameof(Version)}:\n{JsonConvert.SerializeObject(_versionOptions)}");
-                return Ok(_versionOptions);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving version information");
-                return BadRequest(ex.Message);
             }
         }
 
