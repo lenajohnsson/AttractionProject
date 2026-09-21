@@ -20,7 +20,7 @@ public class AttractionsDbRepo
         _logger = logger;
     }
 
-    public async Task<ResponsePageDto<IAttraction>> ReadAttractionsAsync
+    public async Task<ResponsePageDto<AttractionReadListDto>> ReadAttractionsAsync
         (bool seeded, bool flat, string filter, int pageNr, int pageSz)
     {
         if (filter == null)
@@ -39,7 +39,28 @@ public class AttractionsDbRepo
                 .Include(i => i.CategoriesDbM);
         }
 
-        var ret = new ResponsePageDto<IAttraction>()
+        var pageItems = await query
+            .Where(i => (i.Seeded == seeded) &&
+                        (i.AttractionName.ToLower().Contains(filter) ||
+                        i.Description.ToLower().Contains(filter) ||
+                        i.CategoriesDbM.Any(c => c.CategoryType.ToLower().Contains(filter)) ||
+                        i.AddressDbM.Country.ToLower().Contains(filter) ||
+                        i.AddressDbM.City.ToLower().Contains(filter)))
+            .Skip(pageNr * pageSz)
+            .Take(pageSz)
+            .ToListAsync();
+
+        var dtoItems = pageItems.Select(a => new AttractionReadListDto
+        {
+            AttractionId = a.AttractionId,
+            AttractionName = a.AttractionName,
+            Description = a.Description,
+            City = a.Address?.City,
+            Country = a.Address?.Country,
+            Categories = a.Categories?.Select(c => c.CategoryType).ToList()
+        }).ToList();
+
+        var ret = new ResponsePageDto<AttractionReadListDto>()
         {
 #if DEBUG
             ConnectionString = _dbContext.dbConnection,
@@ -52,16 +73,7 @@ public class AttractionsDbRepo
                         i.AddressDbM.Country.ToLower().Contains(filter) ||
                         i.AddressDbM.City.ToLower().Contains(filter))).CountAsync(),
 
-            PageItems = await query
-            .Where(i => (i.Seeded == seeded) &&
-                        (i.AttractionName.ToLower().Contains(filter) ||
-                        i.Description.ToLower().Contains(filter) ||
-                        i.CategoriesDbM.Any(c => c.CategoryType.ToLower().Contains(filter)) ||
-                        i.AddressDbM.Country.ToLower().Contains(filter) ||
-                        i.AddressDbM.City.ToLower().Contains(filter)))
-            .Skip(pageNr * pageSz)
-            .Take(pageSz)
-            .ToListAsync<IAttraction>(),
+            PageItems = dtoItems,
 
             PageNr = pageNr,
             PageSize = pageSz
@@ -69,13 +81,28 @@ public class AttractionsDbRepo
         return ret;
     }
 
-    public async Task<ResponsePageDto<IAttraction>> ReadAttractionsWithoutReviewAsync(int pageNr, int pageSz)
+    public async Task<ResponsePageDto<AttractionNoCommentDto>> ReadAttractionsWithoutReviewAsync(int pageNr, int pageSz)
     {
         IQueryable<AttractionDbM> query = _dbContext.Attractions
             .Include(i => i.ReviewsDbM)
             .Include(i => i.AddressDbM);
 
-        var ret = new ResponsePageDto<IAttraction>()
+        var pageItems = await query
+                .Where(i => !i.ReviewsDbM.Any())
+                .Skip(pageNr * pageSz)
+                .Take(pageSz)
+                .ToListAsync();
+
+        var dtoItems = pageItems.Select(a => new AttractionNoCommentDto
+        {
+            AttractionId = a.AttractionId,
+            AttractionName = a.AttractionName,
+            Description = a.Description,
+            Country = a.Address?.Country,
+            Reviews = a.Reviews?.Select(r => r.Comment).ToList()
+        }).ToList();
+
+        var ret = new ResponsePageDto<AttractionNoCommentDto>()
         {
 #if DEBUG
             ConnectionString = _dbContext.dbConnection,
@@ -83,11 +110,7 @@ public class AttractionsDbRepo
             DbItemsCount = await query
                 .Where(i => !i.ReviewsDbM.Any()).CountAsync(),
 
-            PageItems = await query
-                .Where(i => !i.ReviewsDbM.Any())
-                .Skip(pageNr * pageSz)
-                .Take(pageSz)
-                .ToListAsync<IAttraction>(),
+            PageItems = dtoItems,
 
             PageNr = pageNr,
             PageSize = pageSz
@@ -95,7 +118,7 @@ public class AttractionsDbRepo
         return ret;
     }
 
-    public async Task<ResponseItemDto<IAttraction>> ReadAttractionAsync(Guid id, bool flat)
+    public async Task<ResponseItemDto<AttractionReadItemDto>> ReadAttractionAsync(Guid id, bool flat)
     {
         IAttraction item;
         if (flat)
@@ -117,12 +140,26 @@ public class AttractionsDbRepo
 
         if (item == null) throw new ArgumentException($"Item {id} does not exist");
 
-        return new ResponseItemDto<IAttraction>()
+        var dtoItems = new AttractionReadItemDto
+        {
+            AttractionId = item.AttractionId,
+            AttractionName = item.AttractionName,
+            Description = item.Description,
+            Categories = item.Categories?.Select(c => c.CategoryType).ToList(),
+            Reviews = item.Reviews?.Select(r => new ReviewReadDto
+            {
+                Comment = r.Comment,
+                ReviewGrade = r.ReviewGrade,
+                Date = r.Date
+            }).ToList()
+        };
+
+        return new ResponseItemDto<AttractionReadItemDto>()
         {
 #if DEBUG
             ConnectionString = _dbContext.dbConnection,
 #endif
-            Item = item
+            Item = dtoItems
 
         };
     }

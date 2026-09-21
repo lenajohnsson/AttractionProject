@@ -1,6 +1,5 @@
 using DbRepos;
 using Microsoft.Extensions.Logging;
-using Models;
 using Models.DTO;
 
 namespace Services;
@@ -17,30 +16,6 @@ public class UsersService : IUsersService
         _logger = logger;
     }
 
-    public async Task<ResponsePageDto<UserReadDto>> ReadUsersAsync(int pageNr, int pageSz)
-    {
-        var result = await _repo.ReadUsersAsync(pageNr, pageSz);
-
-        var dtoItems = result.PageItems.Select(u => new UserReadDto
-        {
-            UserId = u.UserId,
-            FirstName = u.FirstName,
-            LastName = u.LastName,
-            Email = u.Email,
-            Reviews = u.Reviews?.Select(r => new ReviewReadDto
-            {
-                Comment = r.Comment,
-                ReviewGrade = r.ReviewGrade,
-                Date = r.Date
-            }).ToList()
-        }).ToList();
-
-        return new ResponsePageDto<UserReadDto>
-        {
-            DbItemsCount = result.DbItemsCount,
-            PageItems = dtoItems,
-            PageNr = result.PageNr,
-            PageSize = result.PageSize
-        };
-    }
+    public Task<ResponsePageDto<UserReadDto>> ReadUsersAsync(int pageNr, int pageSz) =>
+        _repo.ReadUsersAsync(pageNr, pageSz);
 }
