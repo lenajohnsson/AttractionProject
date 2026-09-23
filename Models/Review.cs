@@ -7,7 +7,7 @@ public class Review : IReview, ISeed<Review>
     public virtual Guid ReviewId { get; set; }
     public virtual string Comment { get; set; }
     public virtual int ReviewGrade { get; set; }
-    public virtual DateTime Date { get; set; }
+    public virtual DateTime? Date { get; set; }
     public virtual IAttraction Attraction { get; set; }
     public virtual IUser User { get; set; }
     public bool Seeded { get; set; } = false;

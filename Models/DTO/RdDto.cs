@@ -44,5 +44,5 @@ public class ReviewReadDto
 {
     public string Comment { get; set; }
     public int ReviewGrade { get; set; }
-    public DateTime Date { get; set; }
+    public DateTime? Date { get; set; }
 }

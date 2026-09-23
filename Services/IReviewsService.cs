@@ -5,5 +5,6 @@ namespace Services;
 
 public interface IReviewsService
 {
-    public Task<ResponsePageDto<IReview>> ReadReviewsAsync();
+    public Task<ResponseItemDto<IReview>> ReadReviewAsync(Guid id, bool flat);
+    public Task<ResponseItemDto<IReview>> CreateReviewAsync(ReviewCuDto itemDto);
 }

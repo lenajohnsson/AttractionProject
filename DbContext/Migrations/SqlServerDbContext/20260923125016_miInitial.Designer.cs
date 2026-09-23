@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbContext.Migrations.SqlServerDbContext
 {
     [DbContext(typeof(MainDbContext.SqlServerDbContext))]
-    [Migration("20260923101851_miInitial")]
+    [Migration("20260923125016_miInitial")]
     partial class miInitial
     {
         /// <inheritdoc />
@@ -129,7 +129,7 @@ namespace DbContext.Migrations.SqlServerDbContext
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ReviewGrade")

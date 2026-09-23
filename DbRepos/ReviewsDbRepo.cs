@@ -20,17 +20,57 @@ public class ReviewsDbRepo
         _logger = logger;
     }
 
-    public async Task<ResponsePageDto<IReview>> ReadReviewsAsync()
+    public async Task<ResponseItemDto<IReview>> ReadReviewAsync(Guid id, bool flat)
     {
-        IQueryable<ReviewDbM> query = _dbContext.Reviews;
-        var ret = new ResponsePageDto<IReview>()
+        IReview item;
+        if (flat)
+        {
+            var query = _dbContext.Reviews
+                .Where(i => i.ReviewId == id);
+
+            item = await query.FirstOrDefaultAsync<IReview>();
+        }
+        else
+        {
+            var query = _dbContext.Reviews
+                .Include(i => i.AttractionDbM)
+                .Include(i => i.UserDbM)
+                .Where(i => i.ReviewId == id);
+
+            item = await query.FirstOrDefaultAsync<IReview>();
+        }
+
+        return new ResponseItemDto<IReview>()
         {
 #if DEBUG
             ConnectionString = _dbContext.dbConnection,
 #endif
-            DbItemsCount = await query.CountAsync(),
-            PageItems = await query.ToListAsync<IReview>()
+            Item = item
         };
-        return ret;
+    }
+
+    public async Task<ResponseItemDto<IReview>> CreateReviewAsync(ReviewCuDto itemDto)
+    {
+        if (itemDto.ReviewId != null)
+            throw new ArgumentException($"{nameof(itemDto.ReviewId)} must be null when creating a new review");
+
+        var item = new ReviewDbM(itemDto);
+
+        await UpdateNavProp(itemDto, item);
+
+        _dbContext.Reviews.Add(item);
+
+        await _dbContext.SaveChangesAsync();
+
+        return await ReadReviewAsync(item.ReviewId, false);
+    }
+
+    private async Task UpdateNavProp(ReviewCuDto itemSrc, ReviewDbM itemDst)
+    {
+        itemDst.AttractionDbM = (itemSrc.AttractionId != null) ?
+            await _dbContext.Attractions.FirstOrDefaultAsync(a => a.AttractionId == itemSrc.AttractionId) : null;
+
+        itemDst.UserDbM = (itemSrc.UserId != null) ?
+            await _dbContext.Users.FirstOrDefaultAsync(u => u.UserId == itemSrc.UserId) : null;
     }
 }

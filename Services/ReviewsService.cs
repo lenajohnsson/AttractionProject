@@ -13,5 +13,9 @@ public class ReviewsService : IReviewsService
         _repo = repo;
     }
 
-    public Task<ResponsePageDto<IReview>> ReadReviewsAsync() => _repo.ReadReviewsAsync();
+    public Task<ResponseItemDto<IReview>> ReadReviewAsync(Guid id, bool flat) =>
+        _repo.ReadReviewAsync(id, flat);
+
+    public Task<ResponseItemDto<IReview>> CreateReviewAsync(ReviewCuDto itemDto) =>
+        _repo.CreateReviewAsync(itemDto);
 }

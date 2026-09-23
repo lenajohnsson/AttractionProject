@@ -8,7 +8,6 @@ public class UserCuDto
     public virtual string FirstName { get; set; }
     public virtual string LastName { get; set; }
     public virtual string Email { get; set; }
-    public virtual List<Guid> ReviewId { get; set; } = null;
 
     public UserCuDto() { }
     public UserCuDto(IUser org)
@@ -17,8 +16,6 @@ public class UserCuDto
         FirstName = org.FirstName;
         LastName = org.LastName;
         Email = org.Email;
-
-        ReviewId = org.Reviews?.Select(r => r.ReviewId).ToList();
     }
     public void EnsureValidity()
     {
@@ -53,5 +50,40 @@ public class AttractionCuDto
             throw new ArgumentException("AttractionName can only contains letters (a-ö) and characters (' & -)");
         if (!string.IsNullOrEmpty(Description) && !Regex.IsMatch(Description, @"[A-Öa-ö\s\.,]"))
             throw new ArgumentException("Description can only contain letters (a-ö) and characters (. ,)");
+    }
+}
+
+public class ReviewCuDto
+{
+    public virtual Guid? ReviewId { get; set; }
+    public virtual string Comment { get; set; }
+    public virtual int ReviewGrade { get; set; }
+    public virtual DateTime? Date { get; set; }
+    public virtual Guid? AttractionId { get; set; }
+    public virtual Guid? UserId { get; set; }
+
+    public ReviewCuDto() { }
+    public ReviewCuDto(IReview org)
+    {
+        Comment = org.Comment;
+        ReviewGrade = org.ReviewGrade;
+        Date = org.Date;
+
+        AttractionId = org?.Attraction?.AttractionId;
+        UserId = org?.User?.UserId;
+    }
+    public void EnsureValidity()
+    {
+        if (!string.IsNullOrEmpty(Comment) && !Regex.IsMatch(Comment, @"[A-Öa-ö\s\.,]"))
+            throw new ArgumentException("Comment can only contain letters (a-ö) and characters (. ,)");
+        if (ReviewGrade < 1 || ReviewGrade > 5)
+            throw new ArgumentException("ReviewGrade can only be between 1-5");
+        if (Date.HasValue)
+        {
+            var dateString = Date.Value.ToString("yyyy-MM-dd");
+            var parsedDate = DateTime.Parse(dateString);
+            if (parsedDate != DateTime.Today)
+                throw new ArgumentException("Date of review must be todays date or null");
+        }
     }
 }

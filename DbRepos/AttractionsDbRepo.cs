@@ -171,7 +171,6 @@ public class AttractionsDbRepo
 
         var item = new AttractionDbM(itemDto);
 
-        await updateNavProp(itemDto, item);
 
         _dbContext.Attractions.Add(item);
 
@@ -180,22 +179,5 @@ public class AttractionsDbRepo
         return await ReadAttractionAsync(item.AttractionId, false);
     }
 
-    private async Task updateNavProp(AttractionCuDto itemSrc, AttractionDbM itemDst)
-    {
-        // Update ReviewDbM
-        List<ReviewDbM> reviews = null;
-        if (itemSrc.ReviewId != null)
-        {
-            reviews = new List<ReviewDbM>();
-            foreach (var id in itemSrc.ReviewId)
-            {
-                var r = await _dbContext.Reviews.FirstOrDefaultAsync(i => i.ReviewId == id);
-                if (r == null)
-                    throw new ArgumentException($"Item id {id} does not exist");
 
-                reviews.Add(r);
-            }
-        }
-        itemDst.ReviewsDbM = reviews;
-    }
 }

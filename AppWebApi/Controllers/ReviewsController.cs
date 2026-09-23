@@ -12,23 +12,52 @@ namespace AppWebApi.Controllers
         readonly IReviewsService _service;
         ILogger<ReviewsController> _logger;
 
-        //GET: api/reviews/read
+        //GET: api/reviews/readreview
         [HttpGet()]
-        [ActionName("Read")]
+        [ActionName("ReadReview")]
         [ProducesResponseType(200, Type = typeof(ResponsePageDto<IReview>))]
         [ProducesResponseType(400, Type = typeof(string))]
-        public async Task<IActionResult> Read()
+        public async Task<IActionResult> ReadReview(string id = null, string flat = "false")
         {
             try
             {
-                _logger.LogInformation($"{nameof(Read)}");
-                var res = await _service.ReadReviewsAsync();
-                return Ok(res);
+                Guid idArg = Guid.Parse(id);
+                bool flatArg = bool.Parse(flat);
+
+                _logger.LogInformation($"{nameof(ReadReview)}: {nameof(idArg)} - {idArg}, {nameof(flatArg)} - {flatArg}");
+                var item = await _service.ReadReviewAsync(idArg, flatArg);
+                return Ok(item);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(Read)}: {ex.Message} - {ex.InnerException}");
+                _logger.LogError($"{nameof(ReadReview)}: {ex.Message} - {ex.InnerException}");
                 return BadRequest($"{ex.Message} - {ex.InnerException}");
+            }
+        }
+
+        //POST: api/users/createReview
+        [HttpPost()]
+        [ActionName("CreateReview")]
+        [ProducesResponseType(200, Type = typeof(ResponseItemDto<IReview>))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> CreateReview([FromBody] ReviewCuDto item)
+        {
+            try
+            {
+                item.EnsureValidity();
+
+                _logger.LogInformation($"{nameof(CreateReview)}");
+
+                var _item = await _service.CreateReviewAsync(item);
+
+                _logger.LogInformation($"Item {_item.Item.ReviewId} created");
+
+                return Ok(_item);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(CreateReview)}: {ex.Message} - {ex.InnerException}");
+                return BadRequest($"Could not create item. Error {ex.Message} - {ex.InnerException}");
             }
         }
 

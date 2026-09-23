@@ -126,7 +126,7 @@ namespace DbContext.Migrations.SqlServerDbContext
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ReviewGrade")

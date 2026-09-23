@@ -99,7 +99,6 @@ public class UsersDbRepo
 
         var item = new UserDbM(itemDto);
 
-        await updateNavProp(itemDto, item);
 
         _dbContext.Users.Add(item);
 
@@ -108,22 +107,5 @@ public class UsersDbRepo
         return await ReadUserAsync(item.UserId, false);
     }
 
-    private async Task updateNavProp(UserCuDto itemSrc, UserDbM itemDst)
-    {
-        // Update ReviewDbM
-        List<ReviewDbM> reviews = null;
-        if (itemSrc.ReviewId != null)
-        {
-            reviews = new List<ReviewDbM>();
-            foreach (var id in itemSrc.ReviewId)
-            {
-                var r = await _dbContext.Reviews.FirstOrDefaultAsync(i => i.ReviewId == id);
-                if (r == null)
-                    throw new ArgumentException($"Item id {id} does not exist");
 
-                reviews.Add(r);
-            }
-        }
-        itemDst.ReviewsDbM = reviews;
-    }
 }
