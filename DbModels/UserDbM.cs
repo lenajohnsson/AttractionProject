@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Models;
+using Models.DTO;
 using Newtonsoft.Json;
 using Seido.Utilities.SeedGenerator;
 
@@ -23,8 +24,21 @@ sealed public class UserDbM : User, ISeed<UserDbM>
     [JsonIgnore]
     public List<ReviewDbM> ReviewsDbM { get; set; }
 
+    // Update from DTO
+    public UserDbM UpdateFromDto(UserCuDto org)
+    {
+        FirstName = org.FirstName;
+        LastName = org.LastName;
+        Email = org.Email;
+        return this;
+    }
     // Constructor
     public UserDbM() { }
+    public UserDbM(UserCuDto org)
+    {
+        UserId = Guid.NewGuid();
+        UpdateFromDto(org);
+    }
 
     // Seed
     public override UserDbM Seed(SeedGenerator seeding)

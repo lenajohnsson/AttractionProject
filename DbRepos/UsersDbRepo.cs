@@ -60,4 +60,70 @@ public class UsersDbRepo
         };
         return ret;
     }
+
+    public async Task<ResponseItemDto<IUser>> ReadUserAsync(Guid id, bool flat)
+    {
+        IUser item;
+
+        if (flat)
+        {
+            var query = _dbContext.Users
+                .Where(i => i.UserId == id);
+
+            item = await query.FirstOrDefaultAsync<IUser>();
+        }
+        else
+        {
+            var query = _dbContext.Users
+                .Include(i => i.ReviewsDbM)
+                .Where(i => i.UserId == id);
+            item = await query.FirstOrDefaultAsync<IUser>();
+        }
+
+        if (item == null)
+            throw new ArgumentException($"Item {id} does not exist");
+
+        return new ResponseItemDto<IUser>()
+        {
+#if DEBUG
+            ConnectionString = _dbContext.dbConnection,
+#endif
+            Item = item
+        };
+    }
+
+    public async Task<ResponseItemDto<IUser>> CreateUserAsync(UserCuDto itemDto)
+    {
+        if (itemDto.UserId != null)
+            throw new ArgumentException($"{nameof(itemDto.UserId)} must be nul when creating a new user");
+
+        var item = new UserDbM(itemDto);
+
+        await updateNavProp(itemDto, item);
+
+        _dbContext.Users.Add(item);
+
+        await _dbContext.SaveChangesAsync();
+
+        return await ReadUserAsync(item.UserId, false);
+    }
+
+    private async Task updateNavProp(UserCuDto itemSrc, UserDbM itemDst)
+    {
+        // Update ReviewDbM
+        List<ReviewDbM> reviews = null;
+        if (itemSrc.ReviewId != null)
+        {
+            reviews = new List<ReviewDbM>();
+            foreach (var id in itemSrc.ReviewId)
+            {
+                var r = await _dbContext.Reviews.FirstOrDefaultAsync(i => i.ReviewId == id);
+                if (r == null)
+                    throw new ArgumentException($"Item id {id} does not exist");
+
+                reviews.Add(r);
+            }
+        }
+        itemDst.ReviewsDbM = reviews;
+    }
 }
