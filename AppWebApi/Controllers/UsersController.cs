@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Models;
 using Models.DTO;
 using Services;
@@ -15,7 +14,7 @@ namespace AppWebApi.Controllers
 
         //GET: api/users/readusers
         [HttpGet()]
-        [ActionName("ReadUsers")]
+        [ActionName("ReadUsersWithReviews")]
         [ProducesResponseType(200, Type = typeof(ResponsePageDto<UserReadDto>))]
         [ProducesResponseType(400, Type = typeof(string))]
         public async Task<IActionResult> ReadUsers(string pageNr = "0", string pageSz = "10")
@@ -59,18 +58,18 @@ namespace AppWebApi.Controllers
             }
         }
 
-        //POST: api/users/createitem
+        //POST: api/users/createuser
         [HttpPost()]
-        [ActionName("CreateItem")]
+        [ActionName("CreateUser")]
         [ProducesResponseType(200, Type = typeof(ResponseItemDto<IUser>))]
         [ProducesResponseType(400, Type = typeof(string))]
-        public async Task<IActionResult> CreateItem([FromBody] UserCuDto item)
+        public async Task<IActionResult> CreateUser([FromBody] UserCuDto item)
         {
             try
             {
                 item.EnsureValidity();
 
-                _logger.LogInformation($"{nameof(CreateItem)}");
+                _logger.LogInformation($"{nameof(CreateUser)}");
 
                 var _item = await _service.CreateUserAsync(item);
 
@@ -80,7 +79,7 @@ namespace AppWebApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(CreateItem)}: {ex.Message} - {ex.InnerException}");
+                _logger.LogError($"{nameof(CreateUser)}: {ex.Message} - {ex.InnerException}");
                 return BadRequest($"Could not create item. Error {ex.Message} - {ex.InnerException}");
             }
         }

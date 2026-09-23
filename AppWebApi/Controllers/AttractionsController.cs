@@ -68,20 +68,20 @@ namespace AppWebApi.Controllers
             }
         }
 
-        //GET: api/attractions/readitem
+        //GET: api/attractions/readattraction
         [HttpGet()]
-        [ActionName("ReadItem")]
+        [ActionName("ReadAttraction")]
         [ProducesResponseType(200, Type = typeof(IAttraction))]
         [ProducesResponseType(400, Type = typeof(string))]
         [ProducesResponseType(404, Type = typeof(string))]
-        public async Task<IActionResult> ReadItem(string id = null, string flat = "false")
+        public async Task<IActionResult> ReadAttraction(string id = null, string flat = "false")
         {
             try
             {
                 var idArg = Guid.Parse(id);
                 bool flatArg = bool.Parse(flat);
 
-                _logger.LogInformation($"{nameof(ReadItem)}: {nameof(idArg)} - {idArg}, {nameof(flatArg)} - {flatArg}");
+                _logger.LogInformation($"{nameof(ReadAttraction)}: {nameof(idArg)} - {idArg}, {nameof(flatArg)} - {flatArg}");
 
                 var item = await _service.ReadAttractionAsync(idArg, flatArg);
                 if (item == null) throw new ArgumentException($"Item {id} does not exist");
@@ -89,8 +89,34 @@ namespace AppWebApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(ReadItem)}: {ex.Message} - {ex.InnerException}");
+                _logger.LogError($"{nameof(ReadAttraction)}: {ex.Message} - {ex.InnerException}");
                 return BadRequest($"{ex.Message} - {ex.InnerException}");
+            }
+        }
+
+        //POST: api/users/createAttraction
+        [HttpPost()]
+        [ActionName("CreateAttraction")]
+        [ProducesResponseType(200, Type = typeof(ResponseItemDto<AttractionReadItemDto>))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> CreateAttraction([FromBody] AttractionCuDto item)
+        {
+            try
+            {
+                item.EnsureValidity();
+
+                _logger.LogInformation($"{nameof(CreateAttraction)}");
+
+                var _item = await _service.CreateAttractionAsync(item);
+
+                _logger.LogInformation($"Item {_item.Item.AttractionId} created");
+
+                return Ok(_item);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(CreateAttraction)}: {ex.Message} - {ex.InnerException}");
+                return BadRequest($"Could not create item. Error {ex.Message} - {ex.InnerException}");
             }
         }
 

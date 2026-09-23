@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Models;
+using Models.DTO;
 using Newtonsoft.Json;
 using Seido.Utilities.SeedGenerator;
 
@@ -38,8 +39,21 @@ sealed public class AttractionDbM : Attraction, ISeed<AttractionDbM>, IEquatable
     [ForeignKey("AddressId")]
     public AddressDbM AddressDbM { get; set; }
 
+    // Update from DTO
+    public AttractionDbM UpdateFromDto(AttractionCuDto org)
+    {
+        AttractionName = org.AttractionName;
+        Description = org.Description;
+        return this;
+    }
+
     // Constructor
     public AttractionDbM() { }
+    public AttractionDbM(AttractionCuDto org)
+    {
+        AttractionId = Guid.NewGuid();
+        UpdateFromDto(org);
+    }
 
     // Seed
     public override AttractionDbM Seed(SeedGenerator seeder)

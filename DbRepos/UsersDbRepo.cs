@@ -95,7 +95,7 @@ public class UsersDbRepo
     public async Task<ResponseItemDto<IUser>> CreateUserAsync(UserCuDto itemDto)
     {
         if (itemDto.UserId != null)
-            throw new ArgumentException($"{nameof(itemDto.UserId)} must be nul when creating a new user");
+            throw new ArgumentException($"{nameof(itemDto.UserId)} must be null when creating a new user");
 
         var item = new UserDbM(itemDto);
 
