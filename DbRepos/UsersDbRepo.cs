@@ -39,6 +39,7 @@ public class UsersDbRepo
             Email = u.Email,
             Reviews = u.Reviews?.Select(r => new ReviewReadDto
             {
+                ReviewId = r.ReviewId,
                 Comment = r.Comment,
                 ReviewGrade = r.ReviewGrade,
                 Date = r.Date
@@ -81,7 +82,7 @@ public class UsersDbRepo
         }
 
         if (item == null)
-            throw new ArgumentException($"Item {id} does not exist");
+            throw new ArgumentException($"User {id} does not exist");
 
         return new ResponseItemDto<IUser>()
         {
@@ -107,5 +108,26 @@ public class UsersDbRepo
         return await ReadUserAsync(item.UserId, false);
     }
 
+    public async Task<ResponseItemDto<IUser>> DeleteUserAsync(Guid id)
+    {
+        var query = _dbContext.Users
+            .Where(i => i.UserId == id);
 
+        var item = await query.FirstOrDefaultAsync<UserDbM>();
+
+        if (item == null)
+            throw new ArgumentException($"User {id} does not exist");
+
+        _dbContext.Users.Remove(item);
+
+        await _dbContext.SaveChangesAsync();
+
+        return new ResponseItemDto<IUser>()
+        {
+#if DEBUG
+            ConnectionString = _dbContext.dbConnection,
+#endif
+            Item = item
+        };
+    }
 }

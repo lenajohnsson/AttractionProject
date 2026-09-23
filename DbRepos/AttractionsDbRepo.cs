@@ -148,6 +148,7 @@ public class AttractionsDbRepo
             Categories = item.Categories?.Select(c => c.CategoryType).ToList(),
             Reviews = item.Reviews?.Select(r => new ReviewReadDto
             {
+                ReviewId = r.ReviewId,
                 Comment = r.Comment,
                 ReviewGrade = r.ReviewGrade,
                 Date = r.Date

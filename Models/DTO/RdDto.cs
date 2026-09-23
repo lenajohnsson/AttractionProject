@@ -42,6 +42,7 @@ public class UserReadDto
 
 public class ReviewReadDto
 {
+    public Guid ReviewId { get; set; }
     public string Comment { get; set; }
     public int ReviewGrade { get; set; }
     public DateTime? Date { get; set; }

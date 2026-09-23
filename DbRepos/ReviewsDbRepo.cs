@@ -40,6 +40,9 @@ public class ReviewsDbRepo
             item = await query.FirstOrDefaultAsync<IReview>();
         }
 
+        if (item == null)
+            throw new ArgumentException($"Review {id} does not exist");
+
         return new ResponseItemDto<IReview>()
         {
 #if DEBUG

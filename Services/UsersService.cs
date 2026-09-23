@@ -19,4 +19,6 @@ public class UsersService : IUsersService
         _repo.ReadUserAsync(id, flat);
     public Task<ResponseItemDto<IUser>> CreateUserAsync(UserCuDto item) =>
         _repo.CreateUserAsync(item);
+    public Task<ResponseItemDto<IUser>> DeleteUserAsync(Guid id) =>
+        _repo.DeleteUserAsync(id);
 }

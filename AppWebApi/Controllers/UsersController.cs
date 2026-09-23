@@ -84,6 +84,34 @@ namespace AppWebApi.Controllers
             }
         }
 
+        //DELETE: api/users/deleteuser
+        [HttpDelete("{id}")]
+        [ActionName("DeleteUser")]
+        [ProducesResponseType(200, Type = typeof(IUser))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            try
+            {
+                Guid idArg = Guid.Parse(id);
+
+                _logger.LogInformation($"{nameof(DeleteUser)}: {nameof(idArg)} - {nameof(idArg)}");
+
+                var item = await _service.DeleteUserAsync(idArg);
+                if (item == null)
+                    throw new ArgumentException($"User with id {id} does not exist");
+
+                _logger.LogInformation($"User {idArg} is deleted");
+
+                return Ok(item);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(DeleteUser)}: {ex.Message} - {ex.InnerException}");
+                return BadRequest(ex.Message);
+            }
+        }
+
         public UsersController(IUsersService service,
                                     ILogger<UsersController> logger)
         {
