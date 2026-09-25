@@ -33,7 +33,9 @@ public class AttractionCuDto
     public virtual Guid? AttractionId { get; set; }
     public virtual string AttractionName { get; set; }
     public virtual string Description { get; set; }
+    public virtual Guid? AddressId { get; set; }
     public virtual List<Guid> ReviewId { get; set; } = null;
+    public virtual List<Guid> CategoryId { get; set; } = null;
 
     public AttractionCuDto() { }
     public AttractionCuDto(IAttraction org)
@@ -42,7 +44,9 @@ public class AttractionCuDto
         AttractionName = org.AttractionName;
         Description = org.Description;
 
+        AddressId = org?.Address?.AddressId;
         ReviewId = org.Reviews?.Select(r => r.ReviewId).ToList();
+        CategoryId = org.Categories?.Select(c => c.CategoryId).ToList();
     }
     public void EnsureValidity()
     {

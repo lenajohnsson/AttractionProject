@@ -1,4 +1,5 @@
 
+using System.IO.Compression;
 using DbContext;
 using DbModels;
 using Microsoft.EntityFrameworkCore;
@@ -138,7 +139,7 @@ public class AttractionsDbRepo
             item = await query.FirstOrDefaultAsync<IAttraction>();
         }
 
-        if (item == null) throw new ArgumentException($"Item {id} does not exist");
+        if (item == null) throw new ArgumentException($"Attraction {id} does not exist");
 
         var dtoItems = new AttractionReadItemDto
         {
@@ -172,8 +173,32 @@ public class AttractionsDbRepo
 
         var item = new AttractionDbM(itemDto);
 
-
         _dbContext.Attractions.Add(item);
+
+        await _dbContext.SaveChangesAsync();
+
+        return await ReadAttractionAsync(item.AttractionId, false);
+    }
+
+    public async Task<ResponseItemDto<AttractionReadItemDto>> UpdateAttractionAsync(AttractionCuDto itemDto)
+    {
+        var query = _dbContext.Attractions
+            .Where(i => i.AttractionId == itemDto.AttractionId);
+
+        var item = await query
+            .Include(i => i.AddressDbM)
+            .Include(i => i.ReviewsDbM)
+            .Include(i => i.CategoriesDbM)
+            .FirstOrDefaultAsync<AttractionDbM>();
+
+        if (item == null)
+            throw new ArgumentException($"Attraction {itemDto.AttractionId} does not exist");
+
+        item.UpdateFromDto(itemDto);
+
+        await UpdateNavProp(itemDto, item);
+
+        _dbContext.Attractions.Update(item);
 
         await _dbContext.SaveChangesAsync();
 
@@ -201,5 +226,41 @@ public class AttractionsDbRepo
 #endif
             Item = item
         };
+    }
+
+    private async Task UpdateNavProp(AttractionCuDto itemSrc, AttractionDbM itemDst)
+    {
+        itemDst.AddressDbM = (itemSrc.AddressId != null) ?
+            await _dbContext.Addresses.FirstOrDefaultAsync(a => a.AddressId == itemSrc.AddressId) : null;
+
+        List<ReviewDbM> reviews = null;
+        if (itemSrc.ReviewId != null)
+        {
+            reviews = new List<ReviewDbM>();
+            foreach (var id in itemSrc.ReviewId)
+            {
+                var rev = await _dbContext.Reviews.FirstOrDefaultAsync(r => r.ReviewId == id);
+                if (rev == null)
+                    throw new ArgumentException($"Review {id} does not exist");
+
+                reviews.Add(rev);
+            }
+        }
+        itemDst.ReviewsDbM = reviews;
+
+        List<CategoryDbM> categories = null;
+        if (itemSrc.CategoryId != null)
+        {
+            categories = new List<CategoryDbM>();
+            foreach (var id in itemSrc.CategoryId)
+            {
+                var cat = await _dbContext.Categories.FirstOrDefaultAsync(c => c.CategoryId == id);
+                if (cat == null)
+                    throw new ArgumentException($"Category {id} does not exist");
+
+                categories.Add(cat);
+            }
+        }
+        itemDst.CategoriesDbM = categories;
     }
 }

@@ -61,6 +61,34 @@ namespace AppWebApi.Controllers
             }
         }
 
+        //DELETE: api/users/deletereview
+        [HttpDelete("{id}")]
+        [ActionName("DeleteReview")]
+        [ProducesResponseType(200, Type = typeof(IReview))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> DeleteReview(string id)
+        {
+            try
+            {
+                Guid idArg = Guid.Parse(id);
+
+                _logger.LogInformation($"{nameof(DeleteReview)}: {nameof(idArg)} - {nameof(idArg)}");
+
+                var item = await _service.DeleteReviewAsync(idArg);
+                if (item == null)
+                    throw new ArgumentException($"Review with id {id} does not exist");
+
+                _logger.LogInformation($"Review {idArg} is deleted");
+
+                return Ok(item);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(DeleteReview)}: {ex.Message} - {ex.InnerException}");
+                return BadRequest(ex.Message);
+            }
+        }
+
         public ReviewsController(IReviewsService service,
                                     ILogger<ReviewsController> logger)
         {

@@ -25,6 +25,9 @@ public class AttractionsService : IAttractionsService
     public Task<ResponseItemDto<AttractionReadItemDto>> CreateAttractionAsync(AttractionCuDto itemDto) =>
         _repo.CreateAttractionAsync(itemDto);
 
+    public Task<ResponseItemDto<AttractionReadItemDto>> UpdateAttractionAsync(AttractionCuDto itemDto) =>
+        _repo.UpdateAttractionAsync(itemDto);
+
     public Task<ResponseItemDto<IAttraction>> DeleteAttractionAsync(Guid id) =>
         _repo.DeleteAttractionAsync(id);
 }

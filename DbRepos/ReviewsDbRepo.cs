@@ -68,6 +68,29 @@ public class ReviewsDbRepo
         return await ReadReviewAsync(item.ReviewId, false);
     }
 
+    public async Task<ResponseItemDto<IReview>> DeleteReviewAsync(Guid id)
+    {
+        var query = _dbContext.Reviews
+            .Where(i => i.ReviewId == id);
+
+        var item = await query.FirstOrDefaultAsync<ReviewDbM>();
+
+        if (item == null)
+            throw new ArgumentException($"Review {id} does not exist");
+
+        _dbContext.Reviews.Remove(item);
+
+        await _dbContext.SaveChangesAsync();
+
+        return new ResponseItemDto<IReview>()
+        {
+#if DEBUG
+            ConnectionString = _dbContext.dbConnection,
+#endif
+            Item = item
+        };
+    }
+
     private async Task UpdateNavProp(ReviewCuDto itemSrc, ReviewDbM itemDst)
     {
         itemDst.AttractionDbM = (itemSrc.AttractionId != null) ?

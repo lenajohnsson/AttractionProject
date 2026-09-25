@@ -120,6 +120,35 @@ namespace AppWebApi.Controllers
             }
         }
 
+        //PUT: api/friends/updateattraction
+        [HttpPut("{id}")]
+        [ActionName("UpdateAttraction")]
+        [ProducesResponseType(200, Type = typeof(ResponseItemDto<AttractionReadItemDto>))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> UpdateAttraction(string id, [FromBody] AttractionCuDto item)
+        {
+            try
+            {
+                item.EnsureValidity();
+
+                var idArg = Guid.Parse(id);
+
+                _logger.LogInformation($"{nameof(UpdateAttraction)}: {nameof(idArg)} - {idArg}");
+
+                if (item.AttractionId != idArg) throw new ArgumentException($"Attraction {id} does not exist");
+                var _item = await _service.UpdateAttractionAsync(item);
+
+                _logger.LogInformation($"item {idArg} updated");
+
+                return Ok(_item);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(UpdateAttraction)}: {ex.Message}");
+                return BadRequest($"Could not update. Error {ex.Message}");
+            }
+        }
+
         //DELETE: api/users/deleteattraction
         [HttpDelete("{id}")]
         [ActionName("DeleteAttraction")]

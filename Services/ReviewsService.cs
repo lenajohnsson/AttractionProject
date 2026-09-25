@@ -18,4 +18,7 @@ public class ReviewsService : IReviewsService
 
     public Task<ResponseItemDto<IReview>> CreateReviewAsync(ReviewCuDto itemDto) =>
         _repo.CreateReviewAsync(itemDto);
+
+    public Task<ResponseItemDto<IReview>> DeleteReviewAsync(Guid id) =>
+        _repo.DeleteReviewAsync(id);
 }
