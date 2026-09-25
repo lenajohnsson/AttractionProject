@@ -120,6 +120,34 @@ namespace AppWebApi.Controllers
             }
         }
 
+        //DELETE: api/users/deleteattraction
+        [HttpDelete("{id}")]
+        [ActionName("DeleteAttraction")]
+        [ProducesResponseType(200, Type = typeof(IAttraction))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> DeleteAttraction(string id)
+        {
+            try
+            {
+                Guid idArg = Guid.Parse(id);
+
+                _logger.LogInformation($"{nameof(DeleteAttraction)}: {nameof(idArg)} - {nameof(idArg)}");
+
+                var item = await _service.DeleteAttractionAsync(idArg);
+                if (item == null)
+                    throw new ArgumentException($"Attraction with id {id} does not exist");
+
+                _logger.LogInformation($"Attraction {idArg} is deleted");
+
+                return Ok(item);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(DeleteAttraction)}: {ex.Message} - {ex.InnerException}");
+                return BadRequest(ex.Message);
+            }
+        }
+
         public AttractionsController(IAttractionsService service,
                                     ILogger<AttractionsController> logger)
         {

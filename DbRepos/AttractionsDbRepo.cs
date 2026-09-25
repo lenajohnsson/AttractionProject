@@ -180,5 +180,26 @@ public class AttractionsDbRepo
         return await ReadAttractionAsync(item.AttractionId, false);
     }
 
+    public async Task<ResponseItemDto<IAttraction>> DeleteAttractionAsync(Guid id)
+    {
+        var query = _dbContext.Attractions
+            .Where(i => i.AttractionId == id);
 
+        var item = await query.FirstOrDefaultAsync<AttractionDbM>();
+
+        if (item == null)
+            throw new ArgumentException($"Attraction {id} does not exist");
+
+        _dbContext.Attractions.Remove(item);
+
+        await _dbContext.SaveChangesAsync();
+
+        return new ResponseItemDto<IAttraction>()
+        {
+#if DEBUG
+            ConnectionString = _dbContext.dbConnection,
+#endif
+            Item = item
+        };
+    }
 }

@@ -1,4 +1,5 @@
 using DbRepos;
+using Models;
 using Models.DTO;
 
 namespace Services;
@@ -23,4 +24,7 @@ public class AttractionsService : IAttractionsService
 
     public Task<ResponseItemDto<AttractionReadItemDto>> CreateAttractionAsync(AttractionCuDto itemDto) =>
         _repo.CreateAttractionAsync(itemDto);
+
+    public Task<ResponseItemDto<IAttraction>> DeleteAttractionAsync(Guid id) =>
+        _repo.DeleteAttractionAsync(id);
 }
