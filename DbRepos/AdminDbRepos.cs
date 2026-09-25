@@ -7,6 +7,8 @@ using DbModels;
 using DbContext;
 using Configuration;
 using Models.DTO;
+using System.Data.Common;
+using Microsoft.Data.SqlClient;
 
 namespace DbRepos;
 
@@ -73,7 +75,6 @@ public class AdminDbRepos
     }
     public async Task<ResponseItemDto<GuestUserInfoAllDto>> SeedAsync(int nrItems)
     {
-        //Create a seeder
         var fn = Path.GetFullPath(_seedSource);
         var seeder = new SeedGenerator(fn);
 
@@ -86,8 +87,6 @@ public class AdminDbRepos
         var attractions = seeder.UniqueItemsToList<AttractionDbM>(nrItems);
         var attractionAddresses = seeder.UniqueItemsToList<AddressDbM>(nrItems);
         var users = seeder.ItemsToList<UserDbM>(50);
-
-
 
         foreach (var attraction in attractions)
         {
@@ -106,7 +105,6 @@ public class AdminDbRepos
         _dbContext.Users.AddRange(users);
         _dbContext.Attractions.AddRange(attractions);
 
-        //Save changes to the database
         await _dbContext.SaveChangesAsync();
 
         return await DbInfo();
@@ -114,15 +112,19 @@ public class AdminDbRepos
 
     public async Task<ResponseItemDto<GuestUserInfoAllDto>> RemoveSeedAsync(bool seeded)
     {
-        _dbContext.Users.RemoveRange(_dbContext.Users.Where(u => u.Seeded == seeded));
-        _dbContext.Addresses.RemoveRange(_dbContext.Addresses.Where(u => u.Seeded == seeded));
-        _dbContext.Attractions.RemoveRange(_dbContext.Attractions.Where(u => u.Seeded == seeded));
-        _dbContext.Reviews.RemoveRange(_dbContext.Reviews.Where(u => u.Seeded == seeded));
-        _dbContext.Categories.RemoveRange(_dbContext.Categories.Where(u => u.Seeded == seeded));
+        var connection = _dbContext.Database.GetDbConnection();
+        using var cmd = connection.CreateCommand();
+        cmd.CommandType = CommandType.StoredProcedure;
 
-        await _dbContext.SaveChangesAsync();
+        cmd.CommandText = "dbo.spDeleteAll";
+
+        cmd.Parameters.Add(new SqlParameter("@seededParam", seeded));
+
+        if (connection.State != ConnectionState.Open)
+            await connection.OpenAsync();
+
+        await cmd.ExecuteScalarAsync();
 
         return await DbInfo();
     }
-
 }
