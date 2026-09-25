@@ -1,9 +1,6 @@
-
-using System.IO.Compression;
 using DbContext;
 using DbModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Models;
 using Models.DTO;
 
@@ -12,13 +9,10 @@ namespace DbRepos;
 public class AttractionsDbRepo
 {
     readonly MainDbContext _dbContext;
-    ILogger<AttractionsDbRepo> _logger;
 
-    public AttractionsDbRepo(MainDbContext context,
-                            ILogger<AttractionsDbRepo> logger)
+    public AttractionsDbRepo(MainDbContext context)
     {
         _dbContext = context;
-        _logger = logger;
     }
 
     public async Task<ResponsePageDto<AttractionReadListDto>> ReadAttractionsAsync
@@ -61,7 +55,7 @@ public class AttractionsDbRepo
             Categories = a.Categories?.Select(c => c.CategoryType).ToList()
         }).ToList();
 
-        var ret = new ResponsePageDto<AttractionReadListDto>()
+        return new ResponsePageDto<AttractionReadListDto>()
         {
 #if DEBUG
             ConnectionString = _dbContext.dbConnection,
@@ -79,7 +73,6 @@ public class AttractionsDbRepo
             PageNr = pageNr,
             PageSize = pageSz
         };
-        return ret;
     }
 
     public async Task<ResponsePageDto<AttractionNoCommentDto>> ReadAttractionsWithoutReviewAsync(int pageNr, int pageSz)
@@ -103,7 +96,7 @@ public class AttractionsDbRepo
             Reviews = a.Reviews?.Select(r => r.Comment).ToList()
         }).ToList();
 
-        var ret = new ResponsePageDto<AttractionNoCommentDto>()
+        return new ResponsePageDto<AttractionNoCommentDto>()
         {
 #if DEBUG
             ConnectionString = _dbContext.dbConnection,
@@ -116,7 +109,6 @@ public class AttractionsDbRepo
             PageNr = pageNr,
             PageSize = pageSz
         };
-        return ret;
     }
 
     public async Task<ResponseItemDto<AttractionReadItemDto>> ReadAttractionAsync(Guid id, bool flat)
@@ -162,7 +154,6 @@ public class AttractionsDbRepo
             ConnectionString = _dbContext.dbConnection,
 #endif
             Item = dtoItems
-
         };
     }
 

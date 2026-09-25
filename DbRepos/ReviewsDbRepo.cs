@@ -1,8 +1,6 @@
-
 using DbContext;
 using DbModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Models;
 using Models.DTO;
 
@@ -11,13 +9,10 @@ namespace DbRepos;
 public class ReviewsDbRepo
 {
     readonly MainDbContext _dbContext;
-    ILogger<ReviewsDbRepo> _logger;
 
-    public ReviewsDbRepo(MainDbContext context,
-                            ILogger<ReviewsDbRepo> logger)
+    public ReviewsDbRepo(MainDbContext context)
     {
         _dbContext = context;
-        _logger = logger;
     }
 
     public async Task<ResponseItemDto<IReview>> ReadReviewAsync(Guid id, bool flat)

@@ -1,13 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Data;
-
 using Seido.Utilities.SeedGenerator;
 using DbModels;
 using DbContext;
-using Configuration;
 using Models.DTO;
-using System.Data.Common;
 using Microsoft.Data.SqlClient;
 
 namespace DbRepos;
@@ -15,13 +11,9 @@ namespace DbRepos;
 public class AdminDbRepos
 {
     private const string _seedSource = "./app-seeds.json";
-    private readonly ILogger<AdminDbRepos> _logger;
-    private Encryptions _encryptions;
     private readonly MainDbContext _dbContext;
-    public AdminDbRepos(ILogger<AdminDbRepos> logger, Encryptions encryptions, MainDbContext context)
+    public AdminDbRepos(MainDbContext context)
     {
-        _logger = logger;
-        _encryptions = encryptions;
         _dbContext = context;
     }
 
@@ -73,6 +65,7 @@ public class AdminDbRepos
             Item = info
         };
     }
+
     public async Task<ResponseItemDto<GuestUserInfoAllDto>> SeedAsync(int nrItems)
     {
         var fn = Path.GetFullPath(_seedSource);
@@ -99,7 +92,7 @@ public class AdminDbRepos
                 review.UserDbM = seeder.FromList(users);
             }
 
-            attraction.ReviewsDbM = (seeder.Bool) ? reviews : null;
+            attraction.ReviewsDbM = seeder.Bool ? reviews : null;
         }
 
         _dbContext.Users.AddRange(users);

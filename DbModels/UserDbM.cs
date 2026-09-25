@@ -32,6 +32,7 @@ sealed public class UserDbM : User, ISeed<UserDbM>
         Email = org.Email;
         return this;
     }
+
     // Constructor
     public UserDbM() { }
     public UserDbM(UserCuDto org)

@@ -12,6 +12,13 @@ namespace AppWebApi.Controllers
         readonly IAttractionsService _service;
         ILogger<AttractionsController> _logger;
 
+        public AttractionsController(IAttractionsService service,
+                                    ILogger<AttractionsController> logger)
+        {
+            _service = service;
+            _logger = logger;
+        }
+
         //GET: api/attractions/readattractions
         [HttpGet()]
         [ActionName("ReadAttractions")]
@@ -176,13 +183,5 @@ namespace AppWebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        public AttractionsController(IAttractionsService service,
-                                    ILogger<AttractionsController> logger)
-        {
-            _service = service;
-            _logger = logger;
-        }
     }
-
 }

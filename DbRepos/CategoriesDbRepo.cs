@@ -1,9 +1,6 @@
-
-using System.Reflection.Metadata.Ecma335;
 using DbContext;
 using DbModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Models;
 using Models.DTO;
 
@@ -12,13 +9,10 @@ namespace DbRepos;
 public class CategoriesDbRepo
 {
     readonly MainDbContext _dbContext;
-    ILogger<CategoriesDbRepo> _logger;
 
-    public CategoriesDbRepo(MainDbContext context,
-                            ILogger<CategoriesDbRepo> logger)
+    public CategoriesDbRepo(MainDbContext context)
     {
         _dbContext = context;
-        _logger = logger;
     }
 
     public async Task<ResponsePageDto<ICategory>> ReadCategoriesAsync
@@ -42,7 +36,7 @@ public class CategoriesDbRepo
                 .ThenInclude(i => i.ReviewsDbM);
         }
 
-        var ret = new ResponsePageDto<ICategory>()
+        return new ResponsePageDto<ICategory>()
         {
 #if DEBUG
             ConnectionString = _dbContext.dbConnection,
@@ -61,6 +55,5 @@ public class CategoriesDbRepo
             PageNr = pageNr,
             PageSize = pageSz
         };
-        return ret;
     }
 }

@@ -1,7 +1,6 @@
 using DbContext;
 using DbModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Models;
 using Models.DTO;
 
@@ -10,13 +9,10 @@ namespace DbRepos;
 public class AddressesDbRepo
 {
     readonly MainDbContext _dbContext;
-    ILogger<AddressesDbRepo> _logger;
 
-    public AddressesDbRepo(MainDbContext context,
-                            ILogger<AddressesDbRepo> logger)
+    public AddressesDbRepo(MainDbContext context)
     {
         _dbContext = context;
-        _logger = logger;
     }
 
     public async Task<ResponsePageDto<IAddress>> ReadAddressesAsync
@@ -40,7 +36,7 @@ public class AddressesDbRepo
                 .ThenInclude(i => i.ReviewsDbM);
         }
 
-        var ret = new ResponsePageDto<IAddress>()
+        return new ResponsePageDto<IAddress>()
         {
 #if DEBUG
             ConnectionString = _dbContext.dbConnection,
@@ -67,6 +63,5 @@ public class AddressesDbRepo
             PageNr = pageNr,
             PageSize = pageSz
         };
-        return ret;
     }
 }

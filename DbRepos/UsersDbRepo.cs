@@ -1,8 +1,6 @@
-
 using DbContext;
 using DbModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Models;
 using Models.DTO;
 
@@ -11,13 +9,10 @@ namespace DbRepos;
 public class UsersDbRepo
 {
     readonly MainDbContext _dbContext;
-    ILogger<UsersDbRepo> _logger;
 
-    public UsersDbRepo(MainDbContext context,
-                            ILogger<UsersDbRepo> logger)
+    public UsersDbRepo(MainDbContext context)
     {
         _dbContext = context;
-        _logger = logger;
     }
 
     public async Task<ResponsePageDto<UserReadDto>> ReadUsersAsync(int pageNr, int pageSz)
@@ -46,7 +41,7 @@ public class UsersDbRepo
             }).ToList()
         }).ToList();
 
-        var ret = new ResponsePageDto<UserReadDto>()
+        return new ResponsePageDto<UserReadDto>()
         {
 #if DEBUG
             ConnectionString = _dbContext.dbConnection,
@@ -59,7 +54,6 @@ public class UsersDbRepo
             PageNr = pageNr,
             PageSize = pageSz
         };
-        return ret;
     }
 
     public async Task<ResponseItemDto<IUser>> ReadUserAsync(Guid id, bool flat)
@@ -99,7 +93,6 @@ public class UsersDbRepo
             throw new ArgumentException($"{nameof(itemDto.UserId)} must be null when creating a new user");
 
         var item = new UserDbM(itemDto);
-
 
         _dbContext.Users.Add(item);
 

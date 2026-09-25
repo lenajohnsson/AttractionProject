@@ -12,6 +12,13 @@ namespace AppWebApi.Controllers
         readonly IReviewsService _service;
         ILogger<ReviewsController> _logger;
 
+        public ReviewsController(IReviewsService service,
+                                    ILogger<ReviewsController> logger)
+        {
+            _service = service;
+            _logger = logger;
+        }
+
         //GET: api/reviews/readreview
         [HttpGet()]
         [ActionName("ReadReview")]
@@ -87,13 +94,6 @@ namespace AppWebApi.Controllers
                 _logger.LogError($"{nameof(DeleteReview)}: {ex.Message} - {ex.InnerException}");
                 return BadRequest(ex.Message);
             }
-        }
-
-        public ReviewsController(IReviewsService service,
-                                    ILogger<ReviewsController> logger)
-        {
-            _service = service;
-            _logger = logger;
         }
     }
 }

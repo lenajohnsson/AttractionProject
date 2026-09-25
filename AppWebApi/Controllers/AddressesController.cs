@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Models;
 using Models.DTO;
 using Services;
@@ -12,6 +11,13 @@ namespace AppWebApi.Controllers
     {
         readonly IAddressesService _service;
         ILogger<AddressesController> _logger;
+
+        public AddressesController(IAddressesService service,
+                                    ILogger<AddressesController> logger)
+        {
+            _service = service;
+            _logger = logger;
+        }
 
         //GET: api/addresses/read
         [HttpGet()]
@@ -42,13 +48,6 @@ namespace AppWebApi.Controllers
                 _logger.LogError($"{nameof(Read)}: {ex.Message} - {ex.InnerException}");
                 return BadRequest($"{ex.Message} - {ex.InnerException}");
             }
-        }
-
-        public AddressesController(IAddressesService service,
-                                    ILogger<AddressesController> logger)
-        {
-            _service = service;
-            _logger = logger;
         }
     }
 }

@@ -1,8 +1,6 @@
-﻿using Configuration;
-using Configuration.Extensions;
+﻿using Configuration.Extensions;
 using DbContext.Extensions;
 using DbRepos;
-
 using Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,7 +53,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new()
     {
-        Title = "Seido Attractions API",
+        Title = "Lenas Attractions API",
 #if DEBUG
         Version = "v2.0 DEBUG",
 #else
@@ -76,7 +74,7 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Seido Attractions API v2.0");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Lenas Attractions API v2.0");
     });
 }
 

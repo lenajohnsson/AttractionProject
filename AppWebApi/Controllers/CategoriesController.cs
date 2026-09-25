@@ -12,6 +12,13 @@ namespace AppWebApi.Controllers
         readonly ICategoriesService _service;
         ILogger<CategoriesController> _logger;
 
+        public CategoriesController(ICategoriesService service,
+                                    ILogger<CategoriesController> logger)
+        {
+            _service = service;
+            _logger = logger;
+        }
+
         //GET: api/categories/read
         [HttpGet()]
         [ActionName("Read")]
@@ -41,13 +48,6 @@ namespace AppWebApi.Controllers
                 _logger.LogError($"{nameof(Read)}: {ex.Message} - {ex.InnerException}");
                 return BadRequest($"{ex.Message} - {ex.InnerException}");
             }
-        }
-
-        public CategoriesController(ICategoriesService service,
-                                    ILogger<CategoriesController> logger)
-        {
-            _service = service;
-            _logger = logger;
         }
     }
 }

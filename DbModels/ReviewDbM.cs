@@ -21,14 +21,14 @@ sealed public class ReviewDbM : Review, ISeed<ReviewDbM>
     public Guid UserId { get; set; }
 
     // Mapping relations
-    // One review can have one attraction
+    // Many reviews can have one attraction
     [NotMapped]
     public override IAttraction Attraction { get => AttractionDbM; set => throw new NotImplementedException(); }
     [JsonIgnore]
     [ForeignKey("AttractionId")]
     public AttractionDbM AttractionDbM { get; set; }
 
-    // One review can have one user
+    // Many reviews can have one user
     [NotMapped]
     public override IUser User { get => UserDbM; set => throw new NotImplementedException(); }
     [JsonIgnore]

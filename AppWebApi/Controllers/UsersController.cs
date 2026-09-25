@@ -12,6 +12,13 @@ namespace AppWebApi.Controllers
         readonly IUsersService _service;
         ILogger<UsersController> _logger;
 
+        public UsersController(IUsersService service,
+                                    ILogger<UsersController> logger)
+        {
+            _service = service;
+            _logger = logger;
+        }
+
         //GET: api/users/readusers
         [HttpGet()]
         [ActionName("ReadUsersWithReviews")]
@@ -110,13 +117,6 @@ namespace AppWebApi.Controllers
                 _logger.LogError($"{nameof(DeleteUser)}: {ex.Message} - {ex.InnerException}");
                 return BadRequest(ex.Message);
             }
-        }
-
-        public UsersController(IUsersService service,
-                                    ILogger<UsersController> logger)
-        {
-            _service = service;
-            _logger = logger;
         }
     }
 }

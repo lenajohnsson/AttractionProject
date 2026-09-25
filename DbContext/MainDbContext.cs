@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-
-using Configuration;
 using DbModels;
-using Microsoft.Extensions.Hosting.Internal;
 using DbContext.Extensions;
 using Models.DTO;
 
@@ -66,7 +62,6 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         public SqlServerDbContext() { }
         public SqlServerDbContext(DbContextOptions options) : base(options) { }
-
 
         //Used only for CodeFirst Database Migration and database update commands
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
